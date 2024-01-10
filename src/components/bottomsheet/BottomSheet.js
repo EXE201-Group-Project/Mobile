@@ -1,20 +1,18 @@
 //import liraries
-import React, { Component, useMemo, useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, Keyboard, ScrollView } from "react-native";
-import BottomSheet, { BottomSheetScrollView  } from "@gorhom/bottom-sheet";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import SearchBar from "../searchbar/SearchBar";
-import List from "../searchlist/List";
-import AddedStop from "../addedstop/AddedStop";
-import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 
+import SearchBar from './SearchBar';
+import List from './List';
+import AddedStop from './AddedStop';
 
 // create a component
 const BottomSheetHome = () => {
-  const snapPoints = useMemo(() => ["10%", "50%", "92%"], []);
+  const snapPoints = useMemo(() => ['10%', '50%', '92%'], []);
 
   const bottomSheetRef = useRef(null);
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState('');
   const [clicked, setClicked] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
   const [snapHighest, setSnapHighest] = useState(false);
@@ -22,14 +20,14 @@ const BottomSheetHome = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   // console.log(selectedItem?.name);
-  console.log("a: ",clicked);
-  console.log("b:", bottomSheetIndex);
-  console.log("c:", selectedItem);
+  console.log('a: ', clicked);
+  console.log('b:', bottomSheetIndex);
+  console.log('c:', selectedItem);
 
   useEffect(() => {
     const getData = async () => {
       const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
+        'https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages'
       );
       const data = await apiResponse.json();
       setFakeData(data);
@@ -50,7 +48,7 @@ const BottomSheetHome = () => {
     // Update bottomSheetIndex when the sheet is swiped
     setBottomSheetIndex(index);
     if (index === 1 || index === 0) {
-      setSearchPhrase("");
+      setSearchPhrase('');
       setClicked(false);
       setSelectedItem(null);
     }
@@ -88,8 +86,8 @@ const BottomSheetHome = () => {
       index={bottomSheetIndex}
       snapPoints={snapPoints}
       // enablePanDownToClose={false}
-      enableOverDrag = {false}
-      handleIndicatorStyle={{ backgroundColor: "gray" }}
+      enableOverDrag={false}
+      handleIndicatorStyle={{ backgroundColor: 'gray' }}
       onChange={handleChange}
     >
       <View style={styles.bottomSheetContainer}>
@@ -112,8 +110,9 @@ const BottomSheetHome = () => {
             setSelectedItem={setSelectedItem}
           />
         )}
-        {clicked && selectedItem !== null && <AddedStop selectedItems={selectedItem} />}
-
+        {clicked && selectedItem !== null && (
+          <AddedStop selectedItems={selectedItem} />
+        )}
       </View>
     </BottomSheet>
   );
@@ -122,25 +121,25 @@ const BottomSheetHome = () => {
 // define your styles
 const styles = StyleSheet.create({
   bottomSheetContainer: {
-    backgroundColor: "white"
+    backgroundColor: 'white'
   },
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   iconWrapper: {
-    position: "absolute",
+    position: 'absolute',
     left: 10,
-    top: "50%",
-    transform: [{ translateY: -10 }], // Adjust based on icon size
+    top: '50%',
+    transform: [{ translateY: -10 }] // Adjust based on icon size
   },
   bottomSheetInput: {
     height: 50, // Set your desired height
     fontSize: 16,
     paddingLeft: 30, // Adjust based on icon size and position
     paddingVertical: 10,
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 
 //make this component available to the app

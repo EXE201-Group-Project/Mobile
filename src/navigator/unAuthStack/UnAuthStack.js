@@ -1,10 +1,11 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Screen } from "../Screen";
-import Login from "../../pages/Login/Login";
-import Read from "../../pages/CRUD/Read";
-import Home from "../../pages/Home/Home";
-import AddedStop from "../../components/addedstop/AddedStop";
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Screen } from '../Screen';
+import Login from '../../pages/Login/Login';
+import Read from '../../pages/CRUD/Read';
+import Home from '../../pages/Home/Home';
+import AddedStop from '../../components/bottomSheet/AddedStop';
+
 const Stack = createStackNavigator();
 
 export default function UnAuthStackNavigator() {
@@ -14,21 +15,21 @@ export default function UnAuthStackNavigator() {
         component={Login}
         name={Screen.Login}
         options={{
-          headerShown: false,
+          headerShown: false
         }}
       />
       <Stack.Screen
         component={Home}
         name={Screen.Home}
         options={{
-          headerShown: false,
+          headerShown: false
         }}
       />
       <Stack.Screen
         component={AddedStop}
         name={Screen.AddedStop}
         options={{
-          headerShown: false,
+          headerShown: false
         }}
       />
     </Stack.Navigator>
