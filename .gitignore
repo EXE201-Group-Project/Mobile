@@ -1,6 +1,10 @@
 <<<<<<< HEAD
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
+#Custom File
+credentials.json
+.env
+
 # dependencies
 node_modules/
 
