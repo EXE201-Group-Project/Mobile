@@ -1,5 +1,7 @@
 export const Screen = {
     Login: 'Login',
-    Read: 'Read'
+    Read: 'Read',
+    Home: 'Home',
+    AddedStop: 'AddedStop',
   };
   
