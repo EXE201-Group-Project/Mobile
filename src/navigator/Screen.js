@@ -1,6 +1,7 @@
 export const Screen = {
   Login: 'Login',
   Read: 'Read',
-  MainPage: 'MainPage',
+  Home: 'Home',
+  AddedStop: 'AddedStop',
   Setting: 'Setting'
 };
