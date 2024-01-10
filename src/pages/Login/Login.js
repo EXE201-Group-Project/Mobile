@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,18 +7,20 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
-  Image,
-  Platform
+  Platform,
+  Button
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/slice/authSlice';
 import { Screen } from '../../navigator/Screen';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+import {
+  GoogleSignin,
+  GoogleSigninButton
+} from '@react-native-google-signin/google-signin';
 
 function Header() {
   return (
@@ -160,6 +162,35 @@ function Footer() {
 }
 
 function Login() {
+  const [error, setError] = useState();
+  const [userInfo, setUserInfo] = useState();
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '606709554304-k6bkcm89tdbhv5te7t2nuhvhovqb6n78.apps.googleusercontent.com'
+    });
+  }, []);
+
+  const signin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const user = await GoogleSignin.signIn();
+      setUserInfo(user);
+      console.log('-------------- User Info --------------');
+      console.log(user);
+      setError();
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  const logout = () => {
+    setUserInfo();
+    GoogleSignin.revokeAccess();
+    GoogleSignin.signOut();
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: '#f1edea' }}>
       <KeyboardAvoidingView
@@ -173,6 +204,26 @@ function Login() {
         >
           <Header />
           <Body />
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 0,
+              marginTop: -30
+            }}
+          >
+            {userInfo ? (
+              <Button title="Logout" onPress={logout} />
+            ) : (
+              <GoogleSigninButton
+                size={GoogleSigninButton.Size.Standard}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={signin}
+                style={[styles.loginButton, styles.loginGoogleBtn]}
+              />
+            )}
+          </View>
           <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <Footer />
           </View>
@@ -200,6 +251,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 350,
     alignItems: 'center'
+  },
+  loginGoogleBtn: {
+    backgroundColor: ''
   },
   loginButtonText: {
     textAlign: 'center',
