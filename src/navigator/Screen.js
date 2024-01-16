@@ -3,5 +3,10 @@ export const Screen = {
   Read: 'Read',
   Home: 'Home',
   AddedStop: 'AddedStop',
-  Setting: 'Setting'
+  Setting: 'Setting',
+  SearchChangeAddress: 'SearchChangeAddress',
+  RouteSetting: 'RouteSetting',
+  SearchStartAddress: 'SearchStartAddress',
+  AuthStackNavigator: 'AuthStackNavigator',
+  LeftDrawer: 'LeftDrawer'
 };

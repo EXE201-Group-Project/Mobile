@@ -1,28 +1,24 @@
 //import liraries
-import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useMemo, useState, useEffect } from 'react';
+import { View, StyleSheet, Text, Keyboard } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-
 import SearchBar from './SearchBar';
 import List from './List';
 import AddedStop from './AddedStop';
+import RouteTrip from './RouteTrip';
 
 // create a component
 const BottomSheetHome = () => {
   const snapPoints = useMemo(() => ['10%', '50%', '92%'], []);
 
-  const bottomSheetRef = useRef(null);
   const [searchPhrase, setSearchPhrase] = useState('');
   const [clicked, setClicked] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
   const [snapHighest, setSnapHighest] = useState(false);
   const [fakeData, setFakeData] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
+  // const [hide, setHide] = useState(false);
 
-  // console.log(selectedItem?.name);
-  console.log('a: ', clicked);
-  console.log('b:', bottomSheetIndex);
-  console.log('c:', selectedItem);
 
   useEffect(() => {
     const getData = async () => {
@@ -51,6 +47,7 @@ const BottomSheetHome = () => {
       setSearchPhrase('');
       setClicked(false);
       setSelectedItem(null);
+      Keyboard.dismiss();
     }
   };
 
@@ -80,7 +77,6 @@ const BottomSheetHome = () => {
   //       keyboardDidHideListener.remove();
   //     };
   //   }, [searchPhrase]);
-  console.log(snapHighest);
   return (
     <BottomSheet
       index={bottomSheetIndex}
@@ -101,17 +97,26 @@ const BottomSheetHome = () => {
             setSelectedItem={setSelectedItem}
           />
         </View>
-
+        {clicked == false && (
+          <RouteTrip />
+        )}
         {searchPhrase && bottomSheetIndex === 2 && !selectedItem && (
           <List
             searchPhrase={searchPhrase}
             data={fakeData}
             setCLicked={setClicked}
+            
             setSelectedItem={setSelectedItem}
+            selectedItem={selectedItem}
+            // setHide = {setHide}
           />
         )}
+        {/* {clicked && selectedItem !== null && hide && ( */}
+        {/* {clicked && selectedItem !== null && hide && (
+          <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} setHide={setHide}/>
+        )} */}
         {clicked && selectedItem !== null && (
-          <AddedStop selectedItems={selectedItem} />
+          <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
         )}
       </View>
     </BottomSheet>

@@ -73,10 +73,9 @@
 
 // List.js
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Screen } from "../../navigator/Screen";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // definition of the Item, which will be rendered in the FlatList
 const Item = ({ name, details, onClick }) => (
@@ -87,17 +86,18 @@ const Item = ({ name, details, onClick }) => (
 );
 
 const List = ({ data, searchPhrase, setCLicked, setSelectedItem }) => {
-  const navigation = useNavigation(); 
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchPhrase.toLowerCase())
   );
 
   const handleItemClick = (item) => {
-    // console.log(item);
     setSelectedItem(item);
     setCLicked(true);
+    const key = `${item.id}_address`;
+    AsyncStorage.setItem(key, item.name);
   };
+
 
   return (
     <View style={styles.list__container}>

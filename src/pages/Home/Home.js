@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import BottomSheetHome from '../../components/bottomSheet/BottomSheet';
+import BottomSheetHome from '../../components/bottomsheet/BottomSheet';
 
 // create a component
 const Home = () => {
