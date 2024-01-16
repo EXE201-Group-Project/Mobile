@@ -214,7 +214,11 @@ function Login() {
             }}
           >
             {userInfo ? (
-              <Button title="Logout" onPress={logout} />
+              <Button
+                style={styles.loginButton}
+                title="Logout"
+                onPress={logout}
+              />
             ) : (
               <GoogleSigninButton
                 size={GoogleSigninButton.Size.Standard}

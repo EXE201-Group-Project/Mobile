@@ -15,7 +15,7 @@ function Navigator() {
   return (
     <NavigationContainer>
       {/* {!token ? <UnAuthStackNavigator/> : <AuthStackNavigator/>} */}
-      <UnAuthStackNavigator />
+      <AuthStackNavigator />
     </NavigationContainer>
   );
 }

@@ -1,3 +1,5 @@
+import { GOOGLE_MAP_API_KEY } from '@env';
+
 export default {
   expo: {
     name: 'exe201-fe',
@@ -16,7 +18,12 @@ export default {
     ios: {
       supportsTablet: true,
       bundleIdentifier: 'com.exe201.DrMap',
-      googleServicesFile: process.env.IOS_PLIST
+      googleServicesFile: process.env.IOS_PLIST,
+      config: {
+        googleMaps: {
+          apiKey: process.env.GG_MAP_API_NONE_SERVICE
+        }
+      }
     },
     android: {
       adaptiveIcon: {
@@ -24,7 +31,12 @@ export default {
         backgroundColor: '#ffffff'
       },
       package: 'com.exe201.DrMap',
-      googleServicesFile: process.env.ANDROID_JSON
+      googleServicesFile: process.env.ANDROID_JSON,
+      config: {
+        googleMaps: {
+          apiKey: process.env.GG_MAP_API_NONE_SERVICE
+        }
+      }
     },
     web: {
       favicon: './assets/favicon.png'
