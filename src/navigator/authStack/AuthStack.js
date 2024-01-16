@@ -12,6 +12,7 @@ import Read from '../../pages/CRUD/Read';
 import MainPage from '../../pages/MainPage/MainPage';
 import SettingPage from '../../pages/Setting/SettingPage';
 import Login from '../../pages/Login/Login';
+import Home from '../../pages/Home/Home';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +27,7 @@ export default function AuthStackNavigator() {
     >
       <Drawer.Screen
         name="Trang chủ"
-        component={MainPage}
+        component={Home}
         options={{
           drawerIcon: ({ color }) => iconDrawer('home-outline', color)
         }}
