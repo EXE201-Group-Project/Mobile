@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import BottomSheetHome from '../../components/bottomSheet/BottomSheet';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { GOOGLE_MAP_API_KEY } from '@env';
+// import { GOOGLE_MAP_API_KEY } from '@env';
 
 const Home = ({ navigation }) => {
   return (
@@ -17,7 +17,6 @@ const Home = ({ navigation }) => {
           ]}
           onPress={() => {
             navigation.openDrawer();
-            console.log(GOOGLE_MAP_API_KEY);
           }}
         >
           <Icon name="menu-outline" size={26} />
