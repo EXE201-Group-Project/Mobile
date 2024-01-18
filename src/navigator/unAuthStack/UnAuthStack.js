@@ -15,63 +15,64 @@ const Stack = createStackNavigator();
 
 export default function UnAuthStackNavigator() {
   return (
-    <Stack.Navigator initialRouteName={Screen.Home}>
-      <Stack.Screen
-        component={Login}
-        name={Screen.Login}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={Home}
-        name={Screen.Home}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={AddedStop}
-        name={Screen.AddedStop}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={SearchChangeAddress}
-        name={Screen.SearchChangeAddress}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={RouteSetting}
-        name={Screen.RouteSetting}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={SearchStartAddress}
-        name={Screen.SearchStartAddress}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={LeftDrawer}
-        name={Screen.LeftDrawer}
-        options={{
-          headerShown: false
-        }}
-      />
-      <Stack.Screen
-        component={AuthStackNavigator}
-        name={Screen.AuthStackNavigator}
-        options={{
-          headerShown: false
-        }}
-      />
-    </Stack.Navigator>
+    <Login />
+    // <Stack.Navigator initialRouteName={Screen.Home}>
+    //   <Stack.Screen
+    //     component={Login}
+    //     name={Screen.Login}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={Home}
+    //     name={Screen.Home}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={AddedStop}
+    //     name={Screen.AddedStop}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={SearchChangeAddress}
+    //     name={Screen.SearchChangeAddress}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={RouteSetting}
+    //     name={Screen.RouteSetting}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={SearchStartAddress}
+    //     name={Screen.SearchStartAddress}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={LeftDrawer}
+    //     name={Screen.LeftDrawer}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     component={AuthStackNavigator}
+    //     name={Screen.AuthStackNavigator}
+    //     options={{
+    //       headerShown: false
+    //     }}
+    //   />
+    // </Stack.Navigator>
   );
 }

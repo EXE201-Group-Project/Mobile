@@ -26,9 +26,6 @@ function Header() {
   return (
     <View style={{ padding: 20 }}>
       <View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={20} color="gray" />
-        </TouchableOpacity>
         <Text
           style={{
             color: '#22ba3a',
