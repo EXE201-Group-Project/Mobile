@@ -8,14 +8,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Button
+  Button,
+  ActivityIndicator
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, loginGoogle, logout } from '../../redux/slice/authSlice';
 import { Screen } from '../../navigator/Screen';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   GoogleSignin,
@@ -161,6 +161,7 @@ function Footer() {
 
 function Login() {
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const dispatch = useDispatch();
 
@@ -173,6 +174,7 @@ function Login() {
 
   const signinGoogle = async () => {
     try {
+      setLoading(true);
       await GoogleSignin.hasPlayServices();
       const user = await GoogleSignin.signIn();
       setUserInfo(user);
@@ -180,6 +182,7 @@ function Login() {
       console.log(user);
       dispatch(loginGoogle(user));
       setError();
+      setLoading(false);
     } catch (e) {
       setError(e);
     }
@@ -198,6 +201,7 @@ function Login() {
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         enabled
       >
+        {/* <ActivityIndicator></ActivityIndicator> */}
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"

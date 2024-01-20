@@ -1,11 +1,15 @@
 //import liraries
 import React, { useMemo, useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Keyboard } from 'react-native';
+import { View, StyleSheet, Text, Keyboard, Pressable } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import SearchBar from './SearchBar';
 import List from './List';
 import AddedStop from './AddedStop';
 import RouteTrip from './RouteTrip';
+import { useDispatch } from 'react-redux';
+import FakeDirection from '../../test/FakeDirection';
+import { updatePolyline } from '../../redux/slice/placeSlice';
+import decodePolyline from '../../pages/Home/DecodePolyline';
 
 // create a component
 const BottomSheetHome = () => {
@@ -18,7 +22,7 @@ const BottomSheetHome = () => {
   const [fakeData, setFakeData] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
   // const [hide, setHide] = useState(false);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -60,6 +64,13 @@ const BottomSheetHome = () => {
     setSnapHighest(bottomSheetIndex === 2);
   }, [bottomSheetIndex]);
 
+  const handleFakeData = () => {
+    const encodedPolyline = FakeDirection.routes[0].overview_polyline.points;
+    const test = decodePolyline(encodedPolyline);
+    console.log('decoded here ', test);
+    return test;
+  };
+
   // Effect to handle keyboard dismissals
   //   useEffect(() => {
   //     const keyboardDidHideListener = Keyboard.addListener(
@@ -87,6 +98,14 @@ const BottomSheetHome = () => {
       onChange={handleChange}
     >
       <View style={styles.bottomSheetContainer}>
+        <Pressable
+          onPress={() => {
+            const decodedPolyline = handleFakeData();
+            dispatch(updatePolyline({ polyline: decodedPolyline }));
+          }}
+        >
+          <Text>Click here</Text>
+        </Pressable>
         <View style={styles.searchContainer}>
           <SearchBar
             searchPhrase={searchPhrase}
@@ -97,15 +116,12 @@ const BottomSheetHome = () => {
             setSelectedItem={setSelectedItem}
           />
         </View>
-        {clicked == false && (
-          <RouteTrip />
-        )}
+        {clicked == false && <RouteTrip />}
         {searchPhrase && bottomSheetIndex === 2 && !selectedItem && (
           <List
             searchPhrase={searchPhrase}
             data={fakeData}
             setCLicked={setClicked}
-            
             setSelectedItem={setSelectedItem}
             selectedItem={selectedItem}
             // setHide = {setHide}
@@ -116,7 +132,10 @@ const BottomSheetHome = () => {
           <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} setHide={setHide}/>
         )} */}
         {clicked && selectedItem !== null && (
-          <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+          <AddedStop
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
         )}
       </View>
     </BottomSheet>
