@@ -13,7 +13,7 @@ import {
 import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from '../../redux/slice/authSlice';
+import { login, loginGoogle, logout } from '../../redux/slice/authSlice';
 import { Screen } from '../../navigator/Screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -26,9 +26,6 @@ function Header() {
   return (
     <View style={{ padding: 20 }}>
       <View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={20} color="gray" />
-        </TouchableOpacity>
         <Text
           style={{
             color: '#22ba3a',
@@ -39,7 +36,7 @@ function Header() {
             paddingTop: 100
           }}
         >
-          Login here
+          Doctor Map
         </Text>
         <Text
           style={{
@@ -69,6 +66,7 @@ function Body() {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const [loginAttemptCounter, setLoginAttemptCounter] = useState(0);
+  const user = useSelector((state) => state.user);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -111,7 +109,7 @@ function Body() {
         onChangeText={handlePasswordChange} // Use handlePasswordChange as the event handler
       />
       <TouchableOpacity
-        onPress={{}}
+        onPress={() => {}}
         style={{ alignItems: 'flex-end', marginTop: 20, marginLeft: 220 }}
       >
         <Text style={{ color: '#22ba3a', fontWeight: 'bold' }}>
@@ -164,6 +162,7 @@ function Footer() {
 function Login() {
   const [error, setError] = useState();
   const [userInfo, setUserInfo] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -172,13 +171,14 @@ function Login() {
     });
   }, []);
 
-  const signin = async () => {
+  const signinGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const user = await GoogleSignin.signIn();
       setUserInfo(user);
       console.log('-------------- User Info --------------');
       console.log(user);
+      dispatch(loginGoogle(user));
       setError();
     } catch (e) {
       setError(e);
@@ -223,7 +223,7 @@ function Login() {
               <GoogleSigninButton
                 size={GoogleSigninButton.Size.Standard}
                 color={GoogleSigninButton.Color.Dark}
-                onPress={signin}
+                onPress={signinGoogle}
                 style={[styles.loginButton, styles.loginGoogleBtn]}
               />
             )}

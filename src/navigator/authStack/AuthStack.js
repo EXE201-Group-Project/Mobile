@@ -1,22 +1,27 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { StyleSheet } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //Component
 import LeftDrawer from '../../components/navigation/LeftDrawer';
 
 import { Screen } from '../Screen';
 import Read from '../../pages/CRUD/Read';
-import MainPage from '../../pages/MainPage/MainPage';
 import SettingPage from '../../pages/Setting/SettingPage';
 import Login from '../../pages/Login/Login';
 import Home from '../../pages/Home/Home';
+import AddedStop from '../../components/bottomSheet/AddedStop';
+import SearchChangeAddress from '../../components/searchChangeAddress/SearchChangeAddress';
+import RouteSetting from '../../pages/Route/RouteSetting';
+import SearchStartAddress from '../../pages/Home/SearchStartAddress';
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-export default function AuthStackNavigator() {
+function Root() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <LeftDrawer {...props} />}
@@ -54,6 +59,53 @@ export default function AuthStackNavigator() {
         }}
       />
     </Drawer.Navigator>
+  );
+}
+
+export default function AuthStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Root"
+        component={Root}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        component={AddedStop}
+        name={Screen.AddedStop}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={SearchChangeAddress}
+        name={Screen.SearchChangeAddress}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={RouteSetting}
+        name={Screen.RouteSetting}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={SearchStartAddress}
+        name={Screen.SearchStartAddress}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={AuthStackNavigator}
+        name={Screen.AuthStackNavigator}
+        options={{
+          headerShown: false
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
