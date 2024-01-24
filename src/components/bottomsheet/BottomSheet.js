@@ -66,9 +66,19 @@ const BottomSheetHome = () => {
 
   const handleFakeData = () => {
     const encodedPolyline = FakeDirection.routes[0].overview_polyline.points;
-    const test = decodePolyline(encodedPolyline);
-    console.log('decoded here ', test);
-    return test;
+    const testtttt =
+      'gdz`AcctjSjAIt@hJHh@Rn@l@bBNf@B^WjG`AO|@Yf@YvCyB|@[|Ck@`Dm@hDm@Rt@L`B?|CFPZNb@Dh@Et@NTRLXBVIdAMz@k@xAE~AFvCFTLNd@Lc@vAOl@V?XDrB?XDFDDHz@Al@TxCFfAJFJT~@JFLdDNFh@`@D@xA~ANCYXkKhIkJjHoJ~H}EdE{BhBi@h@iCjByAnAa@h@YZZVvAhBz@xAf@dAfa@naAxHxQrTli@n@dBSHnGhOjEvKPVn@`BrAxDfBnGfA|ErAbHPrATGd@nCbAxGRbBPdChHrr@b@nD`@nBdA|CjAnBn@|@r@r@hFbCrAz@v@v@|@pA~AnCtC|Ff@t@b@f@zPlLn@l@j@n@h@t@lAxBxCfGdApBhAlBxAxBxFlHvChDzFbG`ClC~@v@lAx@f@RrBp@b@V`@\\RXXj@^jAPhA@j@GlA_@nBiBhJOnA?nAD~@l@`HFrBAtBLlAPn@L\\Zj@|@z@hAr@j@RhBZ\\JbAj@\\V^b@V`@P^Rt@Jr@F`AAx@OvBM~@Q~@o@rBw@zCa@vBQbBc@~GOrDk@hHG`CJzBHz@b@tBrAdFvIv^j@jBf@zA|ApD~HdPtCvFnHrObIdPfSh`@lJtQxDrHrHlOlFhKx@dB?h@bGzMNT?JdAhC{Ar@u@f@MPG`A?`AXrC_A~IKNWLi@JgAGsAOeFq@gEe@kBWwAOSEoNMoDB_H?iCC{Mi@uAOgCG]DjAnHEd@UKWBQLGTJXPLNXlJlL`CzC^n@IFpAdBlAtArC|DbBrB';
+    const second =
+      'ybp`A_puiSq@v@yD~BFJdDgBn@m@fGuGt@_Av@}A`\\jPj@`@l@j@LNrB`DlF`JZVNZhFmCdGcDf@WlEcCdCqAvDwB~@c@TC|BmAeAeCeUel@eB_EiAoD_CwFsCmGeAwBiD}HwCgGoD}H_EkJqC}FeGoLqCmFmFqKsHaOeE{HoImPqIgPeIqPwMiXsHuOuAaDu@wBm@kCIOO_@eAmEo@sCmFaTu@uCUqAQmBCo@?y@@}@lAeQp@eITeAdBqHb@oCJiADaCEy@Km@K_@Yq@a@k@a@e@g@]aAg@y@Su@Ke@O}Au@a@_@k@y@KUW}@OkACgB@QEqAq@eJAy@J}AvA{Gt@kELmBI_AQm@i@_B[i@_@_@]W{DeB[SsAmAiCiC{CwCiCqCsBgCqGoI_BcCuCmFqDiHaAyA_@c@a@c@yAgAoL}Hq@i@OSc@s@aAsAm@sA[_@]m@_BaDiA}Ao@q@w@k@qBeA{@a@cBaAUQ_AeAq@eAw@cAm@yAUu@]{AUcB}Gqq@Ku@OmBc@eEk@_IWwB}AeJeAoEy@{CgAyD_CcHmFeMmFwMu@aBot@}fBaLgXCEMeA_AaByAeBY[cC_BcCoAcBk@yA_@{AUcEc@cAQy@m@U[Ym@X{BX_@jCoBp@]hBo@nHaD`@QEoCBkBRsDPeBh@gBHO^yAL_Bb@qOD_AJeE^qIC_@]eA_@eAUw@Kw@q@sIkAH';
+    const rs = [];
+    const rs1 = decodePolyline(testtttt);
+    const rs2 = decodePolyline(second);
+    rs.push([...rs1]);
+    rs.push([...rs2]);
+    console.log(rs);
+    // const decoded = decodePolyline(encodedPolyline);
+    // console.log('decoded here ', decoded);
+    return rs[0];
   };
 
   // Effect to handle keyboard dismissals

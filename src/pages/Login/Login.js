@@ -52,7 +52,7 @@ function Header() {
             fontWeight: 'bold'
           }}
         >
-          Welcome back you've been missed!
+          Optimize routes app {'\n'} for delivery
         </Text>
       </View>
     </View>
@@ -147,14 +147,7 @@ function Footer() {
           paddingBottom: 50,
           alignItems: 'center'
         }}
-      >
-        <TouchableOpacity
-          style={styles.createAccountButton}
-          onPress={handleLogout}
-        >
-          <Text style={styles.createAccountButtonText}>Back to welcome</Text>
-        </TouchableOpacity>
-      </View>
+      ></View>
     </View>
   );
 }

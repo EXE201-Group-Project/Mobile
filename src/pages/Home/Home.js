@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import BottomSheetHome from '../../components/bottomSheet/BottomSheet';
+import BottomSheetHome from '../../components/bottomsheet/BottomSheet';
 import GgMap from './GgMap';
 // import { GOOGLE_MAP_API_KEY } from '@env';
 

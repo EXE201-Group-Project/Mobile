@@ -1,6 +1,24 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 
+//Local action
 export const updatePolyline = createAction('updatePolyline');
+export const addPlace = createAction('addPlace');
+
+//API Thunk
+
+//Init data type
+const initPlacesState = [
+  {
+    description: '',
+    place_id: '',
+    location: {
+      latlng: {
+        latitude: 0,
+        longitude: 0
+      }
+    }
+  }
+];
 
 const placeSlice = createSlice({
   name: 'place',
@@ -8,7 +26,7 @@ const placeSlice = createSlice({
     msg: '',
     error: '',
     loading: false,
-    places: [],
+    places: initPlacesState,
     polyline: [
       { latitude: 37.8025259, longitude: -122.4351431 },
       { latitude: 37.7896386, longitude: -122.421646 },
@@ -18,18 +36,28 @@ const placeSlice = createSlice({
       { latitude: 37.8025259, longitude: -122.4351431 }
     ]
   },
-  reducers: {},
+  reducers: {
+    clearPlaces: (state, action) => {
+      state.places = initPlacesState;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(updatePolyline, (state, action) => {
       const { polyline } = action.payload;
-      console.log('Polyline here ', polyline);
       if (polyline) {
         state.polyline = polyline;
+      }
+    });
+    builder.addCase(addPlace, (state, action) => {
+      const { place } = action.payload;
+      console.log('This is place gonna be added');
+      console.log(place);
+      if (place) {
+        state.places = state.places.push(place);
       }
     });
   }
 });
 
-// export const { } =
-//   placeSlice.actions;
+export const { clearPlaces } = placeSlice.actions;
 export default placeSlice.reducer;

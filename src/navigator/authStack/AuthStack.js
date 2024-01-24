@@ -13,7 +13,7 @@ import Read from '../../pages/CRUD/Read';
 import SettingPage from '../../pages/Setting/SettingPage';
 import Login from '../../pages/Login/Login';
 import Home from '../../pages/Home/Home';
-import AddedStop from '../../components/bottomSheet/AddedStop';
+import AddedStop from '../../components/bottomsheet/AddedStop';
 import SearchChangeAddress from '../../components/searchChangeAddress/SearchChangeAddress';
 import RouteSetting from '../../pages/Route/RouteSetting';
 import SearchStartAddress from '../../pages/Home/SearchStartAddress';
