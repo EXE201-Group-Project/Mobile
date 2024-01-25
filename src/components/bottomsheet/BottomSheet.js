@@ -2,38 +2,67 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Keyboard, Pressable } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
+
+import { useDispatch } from 'react-redux';
+import { updatePolyline } from '../../redux/slice/placeSlice';
+import decodePolyline from '../../pages/Home/DecodePolyline';
+
 import SearchBar from './SearchBar';
 import List from './List';
 import AddedStop from './AddedStop';
 import RouteTrip from './RouteTrip';
-import { useDispatch } from 'react-redux';
 import FakeDirection from '../../test/FakeDirection';
-import { updatePolyline } from '../../redux/slice/placeSlice';
-import decodePolyline from '../../pages/Home/DecodePolyline';
+
+import { GEOAPIFY_API_KEY } from '@env';
 
 // create a component
-const BottomSheetHome = () => {
+const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
   const snapPoints = useMemo(() => ['10%', '50%', '92%'], []);
 
   const [searchPhrase, setSearchPhrase] = useState('');
   const [clicked, setClicked] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
   const [snapHighest, setSnapHighest] = useState(false);
-  const [fakeData, setFakeData] = useState();
+  const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+
   // const [hide, setHide] = useState(false);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const apiResponse = await fetch(
+  //       'https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages'
+  //     );
+  //     const data = await apiResponse.json();
+  //     setSearchData(data);
+  //   };
+  //   getData();
+  // }, []);
+
+  //Nhap vao it nhat 2 ky tu, debounce
   useEffect(() => {
-    const getData = async () => {
-      const apiResponse = await fetch(
-        'https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages'
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
-    };
-    getData();
-  }, []);
+    if (searchPhrase.length >= 2) {
+      const debounceTime = setTimeout(() => {
+        const formatSearch = searchPhrase.replaceAll(' ', '%20');
+        fetch(
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&bias=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=${GEOAPIFY_API_KEY}`
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            if (result.results) {
+              setSearchData((searchData) => result.results);
+            } else {
+              setSearchData([]);
+            }
+          })
+          .catch((error) => console.log('error', error));
+        console.log('debounded 0.7s');
+      }, 700);
+      return () => clearTimeout(debounceTime);
+    }
+  }, [searchPhrase]);
 
   // Function to handle index change based on the clicked state
   const handleIndexChange = () => {
@@ -62,6 +91,11 @@ const BottomSheetHome = () => {
 
   useEffect(() => {
     setSnapHighest(bottomSheetIndex === 2);
+    if (bottomSheetIndex === 2) {
+      setIsShowMenu(false);
+    } else {
+      setIsShowMenu(true);
+    }
   }, [bottomSheetIndex]);
 
   const handleFakeData = () => {
@@ -126,22 +160,27 @@ const BottomSheetHome = () => {
             setSelectedItem={setSelectedItem}
           />
         </View>
-        {clicked == false && <RouteTrip />}
+        {/* Normal component */}
+        {/* {clicked == false && <RouteTrip />} */}
+        {/* Sau khi an chon search -> show cac danh sach */}
         {searchPhrase && bottomSheetIndex === 2 && !selectedItem && (
           <List
             searchPhrase={searchPhrase}
-            data={fakeData}
+            data={searchData}
             setCLicked={setClicked}
             setSelectedItem={setSelectedItem}
             selectedItem={selectedItem}
             // setHide = {setHide}
           />
         )}
-        {/* {clicked && selectedItem !== null && hide && ( */}
-        {/* {clicked && selectedItem !== null && hide && (
-          <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} setHide={setHide}/>
+        {/* Sau khi chon dia diem thi show thong tin chi tiet ve dia diem day*/}
+        {/* {clicked && selectedItem !== null && (
+          <AddedStop
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+          />
         )} */}
-        {clicked && selectedItem !== null && (
+        {selectedItem !== null && (
           <AddedStop
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}

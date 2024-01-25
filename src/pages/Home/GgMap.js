@@ -4,16 +4,16 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 
-export default function GgMap({ navigation }) {
+export default function GgMap({ navigation, isShowMenu }) {
   const polyline = useSelector((state) => state.place.polyline);
+  const menuNavStyles = isShowMenu
+    ? [styles.navigationBtn, styles.shadowBoxAndroid, styles.shadowBoxIOS]
+    : { display: 'none' };
+
   return (
     <View style={styles.container}>
       <Pressable
-        style={[
-          styles.navigationBtn,
-          styles.shadowBoxAndroid,
-          styles.shadowBoxIOS
-        ]}
+        style={menuNavStyles}
         onPress={() => {
           navigation.openDrawer();
         }}

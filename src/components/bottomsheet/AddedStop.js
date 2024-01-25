@@ -28,11 +28,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../navigator/Screen';
 
 // create a component
-const AddedStop = ({selectedItem, setSelectedItem}) => {
+const AddedStop = ({ selectedItem, setSelectedItem }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const { id, name, details } = selectedItem;
-  const [ID, setID] = id;
+  const { place_id, address_line1, address_line2 } = selectedItem;
+  const [ID, setID] = place_id;
   // console.log("ID", ID)
   const [number, setNumber] = useState(1);
   const [packages, setPackage] = useState('');
@@ -81,8 +81,8 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
         // Implement logic for 'Change address'
         navigation.navigate(Screen.SearchChangeAddress, {
           setSelectedItem: setSelectedItem,
-          setID: setID,
-      });
+          setID: setID
+        });
         break;
       case 'Duplicate stop':
         // Implement logic for 'Duplicate stop'
@@ -107,7 +107,6 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
   //   // Run retrieveSelectedValue whenever the selectedValue changes
   //   retrieveSelectedValue();
   // }, [packages]);
-  
 
   // const retrieveSelectedValue = async () => {
   //   try {
@@ -161,14 +160,13 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
         const key = `${ID}_packages`;
         const value = await AsyncStorage.getItem(key);
 
-          setPackage(value);
-          // console.log('Retrieved selected value:', value);
-
+        setPackage(value);
+        // console.log('Retrieved selected value:', value);
       } catch (error) {
         console.error('Error retrieving selected value:', error);
       }
     };
-  
+
     retrieveSelectedValue();
   }, [changed, ID]);
 
@@ -178,23 +176,20 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
         const key = `${ID}_packages1`;
         const value = await AsyncStorage.getItem(key);
 
-          setPackage1(value);
-          // console.log('Retrieved selected value:', value);
-
+        setPackage1(value);
+        // console.log('Retrieved selected value:', value);
       } catch (error) {
         console.error('Error retrieving selected value:', error);
       }
     };
-  
+
     retrieveSelectedValue1();
   }, [changed, ID]);
 
   useEffect(() => {
     setPackage(null);
     setPackage1(null);
-  },[remove])
-
-  
+  }, [remove]);
 
   return (
     <BottomSheetModalProvider>
@@ -222,11 +217,11 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
 
           <View style={{ marginLeft: 15, marginTop: 20 }}>
             <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-              {name}
+              {address_line1}
             </Text>
           </View>
           <View style={{ marginLeft: 15 }}>
-            <Text style={{ fontSize: 20 }}>{details}</Text>
+            <Text style={{ fontSize: 20 }}>{address_line2}</Text>
           </View>
           <View
             style={{
@@ -268,7 +263,10 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
                 </View>
               </View>
               <View style={{ marginRight: 10 }}>
-                <Text style={{ fontSize: 20 }}>{packages}{packages1}</Text>
+                <Text style={{ fontSize: 20 }}>
+                  {packages}
+                  {packages1}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -501,14 +499,17 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
                         <AntDesign
                           name={item.icon}
                           size={34}
-                          color={item.key === 'Remove stop' ? '#a93946' : 'black'}
+                          color={
+                            item.key === 'Remove stop' ? '#a93946' : 'black'
+                          }
                         />
                       </View>
                       <View style={{ marginLeft: 10 }}>
                         <Text
                           style={{
                             fontSize: 20,
-                            color: item.key === 'Remove stop' ? '#a93946' : 'black'
+                            color:
+                              item.key === 'Remove stop' ? '#a93946' : 'black'
                           }}
                         >
                           {item.key}
@@ -523,34 +524,50 @@ const AddedStop = ({selectedItem, setSelectedItem}) => {
               keyExtractor={(item) => item.key}
             />
           </View>
-          <PackFinderBottom bottomSheetModalRef={bottomSheetModalRef} setChange={setChange} setRemove={setRemove} packages={packages} packages1={packages1} id={id}/>
-          <ArrivalTimeBottom bottomSheetModalRef1={bottomSheetModalRef1}/>
-          <TimeStopBottom bottomSheetModalRef2={bottomSheetModalRef2}/>
+          <PackFinderBottom
+            bottomSheetModalRef={bottomSheetModalRef}
+            setChange={setChange}
+            setRemove={setRemove}
+            packages={packages}
+            packages1={packages1}
+            id={place_id}
+          />
+          <ArrivalTimeBottom bottomSheetModalRef1={bottomSheetModalRef1} />
+          <TimeStopBottom bottomSheetModalRef2={bottomSheetModalRef2} />
           <View style={{ marginTop: 200 }}></View>
         </BottomSheetScrollView>
       </View>
-      
-      <View style={styles.containers}>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => {setModalVisible(!isModalVisible)}}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text>This is your popup content</Text>
-            <TouchableHighlight onPress={() => {setSelectedItem(null)}}>
-              <Text>Remove stop</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => {setModalVisible(!isModalVisible)}}>
-              <Text>Cancel</Text>
-            </TouchableHighlight>
+      <View style={styles.containers}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => {
+            setModalVisible(!isModalVisible);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text>This is your popup content</Text>
+              <TouchableHighlight
+                onPress={() => {
+                  setSelectedItem(null);
+                }}
+              >
+                <Text>Remove stop</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => {
+                  setModalVisible(!isModalVisible);
+                }}
+              >
+                <Text>Cancel</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
     </BottomSheetModalProvider>
   );
 };
@@ -565,20 +582,20 @@ const styles = StyleSheet.create({
   containers: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   modalContent: {
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
-    elevation: 5,
-  },
+    elevation: 5
+  }
 });
 
 //make this component available to the app
