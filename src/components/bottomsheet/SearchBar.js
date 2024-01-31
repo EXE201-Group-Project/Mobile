@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, Keyboard } from 'react-native';
 import { Feather, Entypo, Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 const SearchBar = ({
   clicked,
@@ -9,8 +10,11 @@ const SearchBar = ({
   setSearchPhrase,
   setClicked,
   snapHighest,
-  setSelectedItem
+  setSelectedItem,
+  navigation
 }) => {
+  const places = useSelector((state) => state.place.places);
+
   return (
     <View style={styles.container}>
       {(clicked || snapHighest) && (
@@ -22,6 +26,7 @@ const SearchBar = ({
           onPress={() => {
             Keyboard.dismiss();
             setSearchPhrase('');
+            navigation.openDrawer();
           }}
         />
       )}
@@ -38,6 +43,10 @@ const SearchBar = ({
           size={20}
           color="black"
           style={{ marginLeft: 1 }}
+          onPress={() => {
+            console.log('---------Places here');
+            console.log(places);
+          }}
         />
         {/* Input field */}
         <TextInput

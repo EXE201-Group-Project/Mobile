@@ -1,106 +1,66 @@
-// // List.js
-// import React from "react";
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   FlatList,
-//   SafeAreaView,
-// } from "react-native";
-
-// // definition of the Item, which will be rendered in the FlatList
-// const Item = ({ name, details }) => (
-//   <View style={styles.item}>
-//     <Text style={styles.title}>{name}</Text>
-//     <Text style={styles.details}>{details}</Text>
-//   </View>
-// );
-
-// // the filter
-// const List = ({ searchPhrase, setCLicked, data }) => {
-//   const renderItem = ({ item }) => {
-//     // when no input, show all
-//     if (searchPhrase === "") {
-//       return <Item name={item.name} details={item.details} />;
-//     }
-//     // filter of the name
-//     if (item.name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
-//       return <Item name={item.name} details={item.details} />;
-//     }
-//     // filter of the description
-//     if (item.details.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
-//       return <Item name={item.name} details={item.details} />;
-//     }
-//   };
-
-//   return (
-//     <SafeAreaView style={styles.list__container}>
-//       <View
-//         onStartShouldSetResponder={() => {
-//           setCLicked(false);
-//         }}
-//       >
-//         <FlatList
-//           data={data}
-//           renderItem={renderItem}
-//           keyExtractor={(item) => item.id}
-//         />
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default List;
-
-// const styles = StyleSheet.create({
-//   list__container: {
-//     margin: 10,
-//     height: "85%",
-//     width: "100%",
-//   },
-//   item: {
-//     margin: 30,
-//     borderBottomWidth: 2,
-//     borderBottomColor: "lightgrey"
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: "bold",
-//     marginBottom: 5,
-//     fontStyle: "italic",
-//   },
-// });
-
 // List.js
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import { Ionicons } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { addPlace } from '../../redux/slice/placeSlice';
+
+const initPlacesState = {
+  index: 0,
+  name: '',
+  formatted: '',
+  location: {
+    latlng: {
+      latitude: 0,
+      longitude: 0
+    }
+  }
+};
 
 // definition of the Item, which will be rendered in the FlatList
-const Item = ({ name, details, onClick }) => (
-  <TouchableOpacity
-    onPress={onClick}
-    style={[styles.item, styles.alignHorizontal]}
-  >
-    <Icon style={styles.icon} name="add-circle-outline" size={24} />
-    <View style={{ flex: 8 }}>
-      <Text style={styles.title}>{name}</Text>
-      <Text style={styles.details}>{details}</Text>
-    </View>
-    <Icon style={styles.icon} name="trending-up" size={24} />
-  </TouchableOpacity>
-);
+const Item = ({ name, details, onClick }) => {
+  return (
+    <TouchableOpacity
+      onPress={onClick}
+      style={[styles.item, styles.alignHorizontal]}
+    >
+      <Icon style={styles.icon} name="add-circle-outline" size={24} />
+      <View style={{ flex: 8, justifyContent: 'center' }}>
+        <Text style={styles.title}>{name}</Text>
+        {/* Mot so vi tri khong co details */}
+        {details ? <Text style={styles.details}>{details}</Text> : ''}
+      </View>
+      <Icon style={styles.icon} name="trending-up" size={24} />
+    </TouchableOpacity>
+  );
+};
 
 const List = ({ data, setCLicked, setSelectedItem }) => {
-  // const filteredData = data.filter((item) =>
-  //   item.name.toLowerCase().includes(searchPhrase.toLowerCase())
-  // );
+  const dispatch = useDispatch();
+  const places = useSelector((state) => state.place.places);
 
   const handleItemClick = (item) => {
+    console.log('Item been selected -----------------------------', item);
+    const formattedData = {
+      ...initPlacesState,
+      index: places.length,
+      name: item.name,
+      formatted: item.formatted,
+      location: {
+        ...initPlacesState.location,
+        latlng: {
+          ...initPlacesState.location.latlng,
+          latitude: item.lat,
+          longitude: item.lon
+        }
+      }
+    };
+    dispatch(addPlace({ place: formattedData }));
+
     setSelectedItem(item);
     setCLicked(true);
     const key = `${item.place_id}_address`;
@@ -139,7 +99,8 @@ const styles = StyleSheet.create({
   icon: {
     flex: 1,
     textAlign: 'center',
-    color: '#666666'
+    color: '#666666',
+    marginRight: 6
   },
   title: {
     fontSize: 20,

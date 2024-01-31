@@ -29,17 +29,6 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
   // const [hide, setHide] = useState(false);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const apiResponse = await fetch(
-  //       'https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages'
-  //     );
-  //     const data = await apiResponse.json();
-  //     setSearchData(data);
-  //   };
-  //   getData();
-  // }, []);
-
   //Nhap vao it nhat 2 ky tu, debounce
   useEffect(() => {
     if (searchPhrase.length >= 2) {
@@ -58,8 +47,8 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             }
           })
           .catch((error) => console.log('error', error));
-        console.log('debounded 0.7s');
-      }, 700);
+        console.log('debounded 0.5s');
+      }, 500);
       return () => clearTimeout(debounceTime);
     }
   }, [searchPhrase]);
@@ -110,8 +99,6 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
     rs.push([...rs1]);
     rs.push([...rs2]);
     console.log(rs);
-    // const decoded = decodePolyline(encodedPolyline);
-    // console.log('decoded here ', decoded);
     return rs[0];
   };
 
@@ -142,6 +129,8 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
       onChange={handleChange}
     >
       <View style={styles.bottomSheetContainer}>
+        {/* 
+        Test polyline
         <Pressable
           onPress={() => {
             const decodedPolyline = handleFakeData();
@@ -149,7 +138,7 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
           }}
         >
           <Text>Click here</Text>
-        </Pressable>
+        </Pressable> */}
         <View style={styles.searchContainer}>
           <SearchBar
             searchPhrase={searchPhrase}
@@ -158,12 +147,13 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             setClicked={setClicked}
             snapHighest={snapHighest}
             setSelectedItem={setSelectedItem}
+            navigation={navigation}
           />
         </View>
         {/* Normal component */}
-        {/* {clicked == false && <RouteTrip />} */}
+        {clicked == false && <RouteTrip />}
         {/* Sau khi an chon search -> show cac danh sach */}
-        {searchPhrase && bottomSheetIndex === 2 && !selectedItem && (
+        {clicked && bottomSheetIndex === 2 && !selectedItem && (
           <List
             searchPhrase={searchPhrase}
             data={searchData}

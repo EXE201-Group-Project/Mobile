@@ -7,21 +7,17 @@ export const addPlace = createAction('addPlace');
 //API Thunk
 
 //Init data type
-const initPlacesState = [
-  {
-    index: 0,
-    mainText: '',
-    subText: '',
-    description: '',
-    // place_id: '',
-    location: {
-      latlng: {
-        latitude: 0,
-        longitude: 0
-      }
+const initPlacesState = {
+  index: 0,
+  name: '',
+  formatted: '',
+  location: {
+    latlng: {
+      latitude: 0,
+      longitude: 0
     }
   }
-];
+};
 
 const placeSlice = createSlice({
   name: 'place',
@@ -29,7 +25,7 @@ const placeSlice = createSlice({
     msg: '',
     error: '',
     loading: false,
-    places: initPlacesState,
+    places: [],
     polyline: [
       { latitude: 37.8025259, longitude: -122.4351431 },
       { latitude: 37.7896386, longitude: -122.421646 },
@@ -41,7 +37,7 @@ const placeSlice = createSlice({
   },
   reducers: {
     clearPlaces: (state, action) => {
-      state.places = initPlacesState;
+      state.places = [];
     }
   },
   extraReducers: (builder) => {
@@ -56,7 +52,7 @@ const placeSlice = createSlice({
       console.log('This is place gonna be added');
       console.log(place);
       if (place) {
-        state.places = state.places.push(place);
+        state.places = [...state.places, place];
       }
     });
   }

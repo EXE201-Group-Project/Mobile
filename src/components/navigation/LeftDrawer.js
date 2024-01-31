@@ -1,7 +1,6 @@
 import {
   DrawerContentScrollView,
-  DrawerItemList,
-  createDrawerNavigator
+  DrawerItemList
 } from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,17 +8,22 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { GlobalStyle } from '../../theme/GlobalStyle';
-
-const Drawer = createDrawerNavigator();
+import { useSelector } from 'react-redux';
 
 const LeftDrawer = (props) => {
-  const wallpaper = require('../../../assets/imgs/ButterflyArt.jpg');
+  const userInfo = useSelector((state) => state.user.googleUser);
+
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image source={wallpaper} style={styles.wallpaper} />
-        <Text style={GlobalStyle.header}>Nguyễn Hồ Hồng Đức</Text>
-        <Text style={styles.subText}>hongducnguyenho0@gmail.com</Text>
+        <Image
+          source={{
+            uri: userInfo.photo
+          }}
+          style={styles.wallpaper}
+        />
+        <Text style={GlobalStyle.header}>{userInfo.name}</Text>
+        <Text style={styles.subText}>{userInfo.email}</Text>
         <TouchableOpacity
           onPress={() => {}}
           style={[GlobalStyle.horizontal, styles.alignVerCenter]}
