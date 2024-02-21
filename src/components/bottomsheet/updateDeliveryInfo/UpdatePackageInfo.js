@@ -2,22 +2,13 @@
 import React, { Component, useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './Header';
 
 
 // create a component
-const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeBottomSheet}) => {
+const UpdatePackageInfo = ({ mod, closeBottomSheet}) => {
 
-    const [selectedValue, setSelectedValue] = useState(packages);
-    const [selectedValue1, setSelectedValue1] = useState(packages1);
-    const [key, setKey] = useState(0); // Add a key state
-    
-    // const [key1, setKey1]= useState(0);
-    console.log("----------------------------------------------------")
-    
-
-    // console.log("key", key)
+  console.log(mod)
 
     const option = [
         { label: 'Small', value: 'small' },
@@ -41,109 +32,25 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
       const option4 = [
         { label: 'Floor', value: 'floor' },
         { label: 'Shelf', value: 'shelf' }
-      ];
-
-      const saveSelectedValue = async (value) => {
-        try {
-          // Save the selected value in AsyncStorage
-          // await AsyncStorage.setItem('selectedValuess', value);
-          const key = `${id}_packages`;
-          await AsyncStorage.setItem(key, value);
-
-          // console.log('Selected value saved successfully!');
-        } catch (error) {
-          console.error('Error saving selected value:', error);
-        }
-      };
-
-
-      const handleSwitchSelectorChange = (value) => {
-        // Update the state and save the selected value when it changes
-        setSelectedValue(value);
-        saveSelectedValue(value);
-        // console.log(`SwitchSelector value changed to: ${value}`);
-        switch (value) {
-          case 'small':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          case 'medium':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          case 'large':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          default:
-              setChange((prevKey) => prevKey + 1);
-        }
-      };
-      
-      const saveSelectedValue1 = async (value) => {
-        try {
-          // Save the selected value in AsyncStorage
-          // await AsyncStorage.setItem('selectedValuess1', value);
-          const key = `${id}_packages1`;
-          await AsyncStorage.setItem(key, value);
-
-          // console.log('Selected value saved successfully!');
-        } catch (error) {
-          console.error('Error saving selected value:', error);
-        }
-      };
-
-      const handleSwitchSelectorChange1 = (value) => {
-        // Update the state and save the selected value when it changes
-        setSelectedValue1(value);
-        saveSelectedValue1(value);
-        // console.log(`SwitchSelector value changed to: ${value}`);
-        switch (value) {
-          case 'box':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          case 'bag':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          case 'letter':
-              setChange((prevKey) => prevKey + 1);
-            break;
-          default:
-              setChange((prevKey) => prevKey + 1);
-        }
-      };
-      //----------------------------------------------------------
-
-      const handleUndoSelection = async () => {
-        try {
-          // Remove the selected value from AsyncStorage
-          const key = `${id}_packages`;
-          const key1 = `${id}_packages1`;
-          await AsyncStorage.removeItem(key);
-          await AsyncStorage.removeItem(key1);
-          setSelectedValue(null);
-          setSelectedValue1(null);
-          setKey((prevKey) => prevKey + 1);
-          // setKey1((prevKey) => prevKey + 1)
-          setRemove((prevKey) => prevKey + 1);
-          // setRemove1((prevKey) => prevKey +1)
-          console.log('Selection undone');
-        } catch (error) {
-          console.error('Error removing selected value:', error);
-        }
-      };
-      
+      ];     
 
     return (
 
         <View style={styles.container}>
-        <Header handleUndoSelection={handleUndoSelection} mod={mod} closeBottomSheet={closeBottomSheet}/>
+        <Header mod={mod} closeBottomSheet={closeBottomSheet}/>
             <View style={{marginVertical: 10, marginLeft: 15}}>
                 <Text style={{fontSize: 15, fontWeight:"bold"}}>Pakage description</Text>
             </View>
             <View>
             <View
-              style={styles.containers}
+              style={{
+                marginHorizontal: 15,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
             >
               <SwitchSelector
-              key={key}
                 borderWidth={4}
                 bold
                 textColor={'gray'}
@@ -153,8 +60,7 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
                 borderRadius={10}
                 options={option}
                 // initial={0}
-                initial={option.findIndex((item) => item.value === selectedValue)}
-                onPress={handleSwitchSelectorChange}
+                initial={1}
                 style={{ height: 40 }}
                 
               />
@@ -162,10 +68,15 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
               {/* {console.log(option.findIndex((item) => item.value === selectedValue))} */}
             </View>
             <View
-              style={styles.containers}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 15,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
             >
               <SwitchSelector
-              key={key}
                 borderWidth={4}
                 bold
                 textColor={'gray'}
@@ -175,8 +86,7 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
                 borderRadius={10}
                 options={option1}
                 // initial={0}
-                initial={option1.findIndex((item) => item.value === selectedValue1)}
-                onPress={handleSwitchSelectorChange1}
+                initial={1}
                 style={{ height: 40 }}
               />
               {/* {console.log("test")} */}
@@ -186,10 +96,15 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
               <Text style={{fontSize: 15, fontWeight:"bold"}}>Place in vehicle</Text>
             </View>
             <View
-              style={styles.containers}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 15,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
             >
               <SwitchSelector
-              key={key}
                 borderWidth={4}
                 bold
                 textColor={'gray'}
@@ -207,10 +122,15 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
               {/* {console.log(option.findIndex((item) => item.value === selectedValue))} */}
             </View>
             <View
-              style={styles.containers}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 15,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
             >
               <SwitchSelector
-              key={key}
                 borderWidth={4}
                 bold
                 textColor={'gray'}
@@ -228,10 +148,15 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
               {/* {console.log(option.findIndex((item) => item.value === selectedValue))} */}
             </View>
             <View
-              style={styles.containers}
+              style={{
+                marginTop: 10,
+                marginHorizontal: 15,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
             >
               <SwitchSelector
-              key={key}
                 borderWidth={4}
                 bold
                 textColor={'gray'}
@@ -257,16 +182,10 @@ const PackageInfo = ({setChange, packages, setRemove, packages1, id, mod, closeB
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+
         backgroundColor: 'white',
     },
-    containers: {
-      marginTop: 10,
-      marginHorizontal: 15,
-      borderRadius: 8,
-      borderWidth: 2,
-      borderColor: 'gray'
-    }
 });
 
 //make this component available to the app
-export default PackageInfo;
+export default UpdatePackageInfo;

@@ -3,18 +3,16 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { Screen } from '../../navigator/Screen';
 
 // create a component
 const Break = () => {
+  const navigation = useNavigation();
   return (
     <View>
       <Text
-        style={{
-          fontSize: 25,
-          fontWeight: 'bold',
-          marginBottom: 5,
-          marginTop: 40
-        }}
+        style={styles.text}
       >
         Break
       </Text>
@@ -22,14 +20,8 @@ const Break = () => {
       {
         <View>
           <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: 'gray',
-              height: 60,
-              borderRadius: 5,
-              marginTop: 10,
-              justifyContent: 'center' // Center vertically
-            }}
+            style={styles.touchAble}
+            onPress={() => navigation.navigate(Screen.AddBreak)}
           >
             <View
               style={{
@@ -62,6 +54,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2c3e50'
+  },
+  text: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    marginTop: 40
+  },
+  touchAble: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 60,
+    borderRadius: 5,
+    marginTop: 10,
+    justifyContent: 'center'
   }
 });
 

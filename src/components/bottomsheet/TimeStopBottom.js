@@ -1,11 +1,12 @@
 //import liraries
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import TimeStopInfo from './deliveryInfo/TimeStopInfo';
+import UpdateTimeStopInfo from './updateDeliveryInfo/UpdateTimeStopInfo';
 
 // create a component
-const TimeStopBottom = ({bottomSheetModalRef2}) => {
+const TimeStopBottom = ({bottomSheetModalRef2, edit}) => {
 
     const snapPoints = ['30%', '50%', '80%'];
 
@@ -19,7 +20,12 @@ const TimeStopBottom = ({bottomSheetModalRef2}) => {
         index={1}
         snapPoints={snapPoints}
       >
-        <TimeStopInfo mod2={bottomSheetModalRef2} closeBottomSheet2={closeBottomSheet2}/>
+      {edit?(
+          <UpdateTimeStopInfo mod2={bottomSheetModalRef2} closeBottomSheet2={closeBottomSheet2}/>
+      ):
+      <TimeStopInfo mod2={bottomSheetModalRef2} closeBottomSheet2={closeBottomSheet2}/>
+
+      }
       </BottomSheetModal>
     );
 };

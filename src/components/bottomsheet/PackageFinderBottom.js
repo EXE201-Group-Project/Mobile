@@ -4,6 +4,8 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import PackageInfo from './deliveryInfo/PackageInfo';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, View } from 'react-native';
+import UpdatePackageInfo from './updateDeliveryInfo/UpdatePackageInfo';
 
 // create a component
 const PackFinderBottom = ({
@@ -12,7 +14,8 @@ const PackFinderBottom = ({
   packages,
   setRemove,
   packages1,
-  id
+  id,
+  edit
 }) => {
   const snapPoints = ['30%', '60%', '80%'];
 
@@ -47,6 +50,12 @@ const PackFinderBottom = ({
       snapPoints={snapPoints}
     >
       {/* <Header /> */}
+      {edit?(
+          <UpdatePackageInfo 
+                    mod={bottomSheetModalRef}
+        closeBottomSheet={closeBottomSheet}
+          />
+      ): 
       <PackageInfo
         setChange={setChange}
         packages={packages}
@@ -55,7 +64,8 @@ const PackFinderBottom = ({
         id={id}
         mod={bottomSheetModalRef}
         closeBottomSheet={closeBottomSheet}
-      />
+      />}
+
     </BottomSheetModal>
   );
 };

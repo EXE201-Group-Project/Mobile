@@ -48,7 +48,7 @@ const SearchChangeAddress = ({ searchPhrase, setSearchPhrase }) => {
           style={{ padding: 20 }}
           onPress={() => {
             Keyboard.dismiss();
-            navigation.navigate(Screen.Home)
+            navigation.goBack();
           }}
         />
 

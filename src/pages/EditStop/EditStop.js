@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -16,30 +17,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import InputSpinner from 'react-native-input-spinner';
 import SwitchSelector from 'react-native-switch-selector';
+import PackFinderBottom from '../../components/bottomsheet/PackageFinderBottom';
+import ArrivalTimeBottom from '../../components/bottomsheet/ArrivalTimeBottom';
+import TimeStopBottom from '../../components/bottomsheet/TimeStopBottom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { Screen } from '../../navigator/Screen';
 import {
   BottomSheetScrollView,
   BottomSheetModalProvider
 } from '@gorhom/bottom-sheet';
-import PackFinderBottom from './PackageFinderBottom';
-import ArrivalTimeBottom from './ArrivalTimeBottom';
-import TimeStopBottom from './TimeStopBottom';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../navigator/Screen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // create a component
-const AddedStop = ({ selectedItem, setSelectedItem }) => {
+const EditStop = ({ selectedItem, setSelectedItem }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const { id, name, details } = selectedItem;
-  const [ID, setID] = id;
-  // console.log("ID", ID)
   const [number, setNumber] = useState(1);
-  const [packages, setPackage] = useState('');
-  const [packages1, setPackage1] = useState('');
-  const [changed, setChange] = useState(0);
-  // console.log("Changed", changed)
-  const [remove, setRemove] = useState(0);
+  const [edit, setEdit] = useState(true);
   const bottomSheetModalRef = useRef(null);
   const bottomSheetModalRef1 = useRef(null);
   const bottomSheetModalRef2 = useRef(null);
@@ -80,8 +75,7 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
       case 'Change address':
         // Implement logic for 'Change address'
         navigation.navigate(Screen.SearchChangeAddress, {
-          setSelectedItem: setSelectedItem,
-          setID: setID
+          setSelectedItem: setSelectedItem
         });
         break;
       case 'Duplicate stop':
@@ -98,71 +92,65 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
     }
   };
 
-  useEffect(() => {
-    const retrieveSelectedValue = async () => {
-      try {
-        const key = `${ID}_packages`;
-        const value = await AsyncStorage.getItem(key);
-
-        setPackage(value);
-        // console.log('Retrieved selected value:', value);
-      } catch (error) {
-        console.error('Error retrieving selected value:', error);
-      }
-    };
-
-    retrieveSelectedValue();
-  }, [changed, ID]);
-
-  useEffect(() => {
-    const retrieveSelectedValue1 = async () => {
-      try {
-        const key = `${ID}_packages1`;
-        const value = await AsyncStorage.getItem(key);
-
-        setPackage1(value);
-        // console.log('Retrieved selected value:', value);
-      } catch (error) {
-        console.error('Error retrieving selected value:', error);
-      }
-    };
-
-    retrieveSelectedValue1();
-  }, [changed, ID]);
-
-  useEffect(() => {
-    setPackage(null);
-    setPackage1(null);
-  }, [remove]);
-
   return (
-    <BottomSheetModalProvider>
+    <View>
       <View style={styles.container}>
-        <BottomSheetScrollView>
-          <View style={styles.added}>
-            <View>
-              <AntDesign name="checkcircle" size={20} color="#196c2e" />
-            </View>
-            <View>
-              <Text style={{ color: '#196c2e' }}>Added</Text>
-            </View>
+        <ScrollView>
+          <View
+            style={{
+              padding: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="chevron-left" size={20} color="gray" />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ marginRight: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
+                Done
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View style={{ marginLeft: 15, marginTop: 20 }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{name}</Text>
+            <Text style={{ fontSize: 25, fontWeight: 'bold' }}>abcc</Text>
           </View>
           <View style={{ marginLeft: 15 }}>
-            <Text style={{ fontSize: 20 }}>{details}</Text>
+            <Text style={{ fontSize: 20 }}>abc</Text>
           </View>
-          <View style={styles.note}>
+          <View
+            style={{
+              borderRadius: 5,
+              borderColor: '#f5f5f5',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              height: 50,
+              marginTop: 10,
+              justifyContent: 'center'
+            }}
+          >
             <TextInput
               style={{ fontSize: 20, marginLeft: 15 }}
               placeholder="Add notes (recipient, instructions, etc...)"
             />
           </View>
           <TouchableOpacity onPress={handlePresentPackageFinder}>
-            <View style={styles.packageFinder}>
-              <View style={styles.eachRow}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 10
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 15
+                }}
+              >
                 <View>
                   <Feather name="package" size={34} color="black" />
                 </View>
@@ -171,15 +159,25 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
                 </View>
               </View>
               <View style={{ marginRight: 10 }}>
-                <Text style={{ fontSize: 20 }}>
-                  {packages}
-                  {packages1}
-                </Text>
+                <Text style={{ fontSize: 20 }}>abc</Text>
               </View>
             </View>
           </TouchableOpacity>
-          <View style={styles.viewSwitch}>
-            <View style={styles.viewIcon}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 10
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 15
+              }}
+            >
               <View>
                 <MaterialCommunityIcons
                   name="package-variant-closed"
@@ -191,7 +189,15 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
                 <Text style={{ fontSize: 20 }}>Packages</Text>
               </View>
             </View>
-            <View style={styles.inputSpinner}>
+            <View
+              style={{
+                marginRight: 10,
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderRadius: 5,
+                overflow: 'hidden'
+              }}
+            >
               <InputSpinner
                 buttonStyle={{ backgroundColor: 'white' }}
                 // showBorder = {true}
@@ -213,8 +219,21 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
               />
             </View>
           </View>
-          <View style={styles.viewSwitch}>
-            <View style={styles.viewIcon}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 10
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 15
+              }}
+            >
               <View>
                 <Octicons name="list-ordered" size={34} color="black" />
               </View>
@@ -222,7 +241,14 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
                 <Text style={{ fontSize: 20 }}>Order</Text>
               </View>
             </View>
-            <View style={styles.switchSelector}>
+            <View
+              style={{
+                marginRight: 10,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
+            >
               <SwitchSelector
                 borderWidth={4}
                 textColor={'gray'}
@@ -239,8 +265,21 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
               />
             </View>
           </View>
-          <View style={styles.viewSwitch}>
-            <View style={styles.viewIcon}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 10
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: 15
+              }}
+            >
               <View>
                 <Octicons name="list-ordered" size={34} color="black" />
               </View>
@@ -248,7 +287,14 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
                 <Text style={{ fontSize: 20 }}>Type</Text>
               </View>
             </View>
-            <View style={styles.switchSelector}>
+            <View
+              style={{
+                marginRight: 10,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'gray'
+              }}
+            >
               <SwitchSelector
                 borderWidth={4}
                 textColor={'gray'}
@@ -269,8 +315,21 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
             </View>
           </View>
           <TouchableOpacity onPress={handlePresentArrivalTime}>
-            <View style={styles.time}>
-              <View style={styles.eachRow}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 15
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 15
+                }}
+              >
                 <View>
                   <AntDesign name="antdesign" size={34} color="black" />
                 </View>
@@ -284,8 +343,21 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={handlePresentTimeStop}>
-            <View style={styles.time}>
-              <View style={styles.eachRow}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 15
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 15
+                }}
+              >
                 <View>
                   <AntDesign name="clockcircleo" size={34} color="black" />
                 </View>
@@ -303,7 +375,16 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
               data={datas}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => handlePress(item.key)}>
-                  <View style={styles.bottom}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginTop: 10,
+                      paddingHorizontal: 15,
+                      paddingVertical: 5
+                    }}
+                  >
                     <View
                       style={{ flexDirection: 'row', alignItems: 'center' }}
                     >
@@ -336,41 +417,25 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
               keyExtractor={(item) => item.key}
             />
           </View>
-          <PackFinderBottom
-            bottomSheetModalRef={bottomSheetModalRef}
-            setChange={setChange}
-            setRemove={setRemove}
-            packages={packages}
-            packages1={packages1}
-            id={id}
-          />
-          <ArrivalTimeBottom bottomSheetModalRef1={bottomSheetModalRef1} />
-          <TimeStopBottom bottomSheetModalRef2={bottomSheetModalRef2} />
-          <View style={{ marginTop: 200 }}></View>
-        </BottomSheetScrollView>
+
+          {/* <View style={{ marginTop: 2 }}></View> */}
+        </ScrollView>
       </View>
+      <BottomSheetModalProvider>
+        <PackFinderBottom
+          bottomSheetModalRef={bottomSheetModalRef}
+          edit={edit}
+        />
+        <ArrivalTimeBottom
+          bottomSheetModalRef1={bottomSheetModalRef1}
+          edit={edit}
+        />
+        <TimeStopBottom
+          bottomSheetModalRef2={bottomSheetModalRef2}
+          edit={edit}
+        />
+      </BottomSheetModalProvider>
 
-      {/* <View style={styles.containers}>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => {setModalVisible(!isModalVisible)}}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text>This is your popup content</Text>
-            <TouchableHighlight onPress={() => {setSelectedItem(null)}}>
-              <Text>Remove stop</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => {setModalVisible(!isModalVisible)}}>
-              <Text>Cancel</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </Modal>
-    </View> */}
       <View style={styles.containers}>
         <Modal
           animationType="fade"
@@ -424,34 +489,12 @@ const AddedStop = ({ selectedItem, setSelectedItem }) => {
           </View>
         </Modal>
       </View>
-    </BottomSheetModalProvider>
+    </View>
   );
 };
 
 // define your styles
 const styles = StyleSheet.create({
-  // container: {
-  //   backgroundColor: 'white',
-  //   width: '100%',
-  //   height: '100%'
-  // },
-  // containers: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // modalContainer: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  // },
-  // modalContent: {
-  //   backgroundColor: 'white',
-  //   padding: 20,
-  //   borderRadius: 10,
-  //   elevation: 5,
-  // },
   container: {
     backgroundColor: 'white',
     width: '100%',
@@ -477,76 +520,8 @@ const styles = StyleSheet.create({
     height: '30%',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  added: {
-    backgroundColor: '#d4f4dc',
-    padding: 5,
-    width: '20%',
-    marginTop: 15,
-    marginLeft: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    borderRadius: 7
-  },
-  note: {
-    borderRadius: 5,
-    borderColor: '#f5f5f5',
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    height: 50,
-    marginTop: 10,
-    justifyContent: 'center'
-  },
-  packageFinder: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10
-  },
-  eachRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 15
-  },
-  viewSwitch: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10
-  },
-  viewIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 15
-  },
-  inputSpinner: {
-    marginRight: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    overflow: 'hidden'
-  },
-  switchSelector: {
-    marginRight: 10,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'gray'
-  },
-  time: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 15
-  },
-  bottom: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 5
   }
 });
 
 //make this component available to the app
-export default AddedStop;
+export default EditStop;

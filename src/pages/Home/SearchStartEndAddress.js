@@ -1,13 +1,13 @@
 //import liraries
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import SearchStartAddresses from '../../components/searchStartAddress/SearchStartAddresses';
-import ListStartAddress from '../../components/searchStartAddress/ListStartAddress';
+import SearchStartEndAddresses from '../../components/routeSetting/searchStartEndAddress/SearchStartEndAddresses';
+import ListStartEndAddress from '../../components/routeSetting/searchStartEndAddress/ListStartEndAddress';
 
 
 
 // create a component
-const SearchStartAddress = () => {
+const SearchStartEndAddress = () => {
 
   const [searchPhrase, setSearchPhrase] = useState('');
   const [fakeData, setFakeData] = useState();
@@ -31,14 +31,14 @@ const SearchStartAddress = () => {
 
       <View style={styles.bottomSheetContainer}>
         <View style={styles.searchContainer}>
-          <SearchStartAddresses
+          <SearchStartEndAddresses
             searchPhrase={searchPhrase}
             setSearchPhrase={setSearchPhrase}
           />
         </View>
 
         {searchPhrase && (
-          <ListStartAddress
+          <ListStartEndAddress
             searchPhrase={searchPhrase}
             data={fakeData}
             // setSelectedItem={setSelectedItem}
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default SearchStartAddress;
+export default SearchStartEndAddress;

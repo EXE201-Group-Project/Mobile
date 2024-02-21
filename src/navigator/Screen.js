@@ -6,7 +6,10 @@ export const Screen = {
   Setting: 'Setting',
   SearchChangeAddress: 'SearchChangeAddress',
   RouteSetting: 'RouteSetting',
-  SearchStartAddress: 'SearchStartAddress',
+  SearchStartEndAddress: 'SearchStartEndAddress',
   AuthStackNavigator: 'AuthStackNavigator',
-  LeftDrawer: 'LeftDrawer'
+  LeftDrawer: 'LeftDrawer',
+  EditStop: 'EditStop',
+  EditNote: 'EditNote',
+  AddBreak: 'AddBreak'
 };
