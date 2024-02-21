@@ -1,14 +1,23 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../navigator/Screen';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 // create a component
-const RouteStart = ({name}) => {
+const RouteStart = ({ name, setCount }) => {
+  const [names, setName] = useState('');
+  console.log('name', name);
+
+  useEffect(() => {
+    // Set the initial state when the component mounts
+    setName(name);
+  }, [name, setCount]); // Run this effect when the 'name' prop changes
 
   const navigation = useNavigation();
   return (
@@ -20,30 +29,42 @@ const RouteStart = ({name}) => {
       {
         <View>
           <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: 'gray',
-              height: 60,
-              borderRadius: 5,
-              marginTop: 10,
-              justifyContent: 'center' // Center vertically
-            }}
-            onPress={() => navigation.navigate(Screen.SearchStartAddress)}
+            style={styles.touchAble}
+            onPress={() => navigation.navigate(Screen.SearchStartEndAddress)}
           >
             <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginHorizontal: 20
-              }}
+              style={styles.touchContent}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-              <MaterialIcons name="my-location" size={24} color="#4682f9" style={{ marginRight: 20 }} />
-                <Text>{name}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {names ? (
+                  <FontAwesome
+                    name="home"
+                    size={24}
+                    color="#4682f9"
+                    style={{ marginRight: 20 }}
+                  />
+                ) : (
+                  <MaterialIcons
+                    name="my-location"
+                    size={24}
+                    color="#4682f9"
+                    style={{ marginRight: 20 }}
+                  />
+                )}
+                {names ? (
+                  <Text>{names}</Text>
+                ) : (
+                  <Text>Use current location</Text>
+                )}
               </View>
               <View>
-                <Icon name="chevron-right" size={20} color="gray" />
+                {names ? (
+                  <TouchableOpacity onPress={() => setName('')}>
+                    <Entypo name="cross" size={20} color="gray" />
+                  </TouchableOpacity>
+                ) : (
+                  <Icon name="chevron-right" size={20} color="gray" />
+                )}
               </View>
             </View>
           </TouchableOpacity>
@@ -51,25 +72,18 @@ const RouteStart = ({name}) => {
       }
       <View>
         <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: 'gray',
-            height: 60,
-            borderRadius: 5,
-            marginTop: 10,
-            justifyContent: 'center' // Center vertically
-          }}
+          style={styles.touchAble}
         >
           <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginHorizontal: 20
-            }}
+            style={styles.touchContent}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialCommunityIcons name="clock-outline" size={24} color="#4682f9" style={{ marginRight: 20 }}/>
+              <MaterialCommunityIcons
+                name="clock-outline"
+                size={24}
+                color="#4682f9"
+                style={{ marginRight: 20 }}
+              />
               <Text>Start right now</Text>
             </View>
             <View>
@@ -89,6 +103,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2c3e50'
+  },
+  touchAble: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 60,
+    borderRadius: 5,
+    marginTop: 10,
+    justifyContent: 'center'
+  },
+  touchContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 20
   }
 });
 

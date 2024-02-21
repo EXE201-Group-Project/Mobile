@@ -4,29 +4,29 @@ import { View, Text, StyleSheet, TextInput } from 'react-native';
 import Header from './Header';
 
 // create a component
-const TimeStopInfo = ({mod2, closeBottomSheet2}) => {
+const UpdateTimeStopInfo = ({mod2, closeBottomSheet2}) => {
     return (
         <View style={styles.container}>
         <Header mod2={mod2} closeBottomSheet2={closeBottomSheet2}/>
             <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                 <View style={{marginLeft: 15}}>
                     <View style={{marginVertical: 10}}>
-                        <Text style={styles.text}>
+                        <Text style={{fontSize: 15, fontWeight:"bold"}}>
                             Minutes
                         </Text>
                     </View>
                     <View>
-                        <TextInput placeholder='1' keyboardType="numeric" style={styles.textInput} />
+                        <TextInput placeholder='1' keyboardType="numeric" style={{borderRadius: 10, borderWidth:1, borderColor:"blue", width: 170, height: 50, paddingLeft: 10}} />
                     </View>
                 </View>
                 <View style={{marginRight:15}}>
                     <View style={{marginVertical: 10}}>
-                        <Text style={styles.text}>
+                        <Text style={{fontSize: 15, fontWeight:"bold"}}>
                             Seconds
                         </Text>
                     </View>
                     <View>
-                        <TextInput placeholder='0' keyboardType="numeric" style={styles.textInput} />
+                        <TextInput placeholder='0' keyboardType="numeric" style={{borderRadius: 10, borderWidth:1, borderColor:"blue", width: 170, height: 50, paddingLeft: 10}} />
                     </View>
                 </View>
             </View>
@@ -40,13 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    textInput: {
-        borderRadius: 10, borderWidth:1, borderColor:"blue", width: 170, height: 50, paddingLeft: 10
-    },
-    text:{
-        fontSize: 15, fontWeight:"bold"
-    }
 });
 
 //make this component available to the app
-export default TimeStopInfo;
+export default UpdateTimeStopInfo;

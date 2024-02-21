@@ -1,11 +1,11 @@
-// SearchStartAddresses.js
+// SearchStartEndAddress.js
 import React from "react";
 import { StyleSheet, TextInput, View, Keyboard } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Screen } from "../../navigator/Screen";
+import { Screen } from "../../../navigator/Screen";
 
-const SearchStartAddresses = ({ searchPhrase, setSearchPhrase }) => {
+const SearchStartEndAddress = ({ searchPhrase, setSearchPhrase }) => {
     const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -55,7 +55,7 @@ const SearchStartAddresses = ({ searchPhrase, setSearchPhrase }) => {
     </View>
   );
 };
-export default SearchStartAddresses;
+export default SearchStartEndAddress;
 
 // styles
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ScrollView
 } from 'react-native';
-import Checkbox from 'react-native-paper/src/components/Checkbox/Checkbox';
+import { CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RouteStart from '../../components/routeSetting/RouteStart';
 import RouteEnd from '../../components/routeSetting/RouteEnd';
@@ -19,8 +19,9 @@ import { useNavigation } from '@react-navigation/native';
 // create a component
 
 function Header() {
-
   const navigation = useNavigation();
+
+
   return (
     <>
       <View style={{ padding: 10 }}>
@@ -33,14 +34,13 @@ function Header() {
 }
 
 function Body() {
-
   const route = useRoute();
-  const { name } = route.params || {};
+  const { name, setCount } = route.params || {};
 
   return (
     <>
       <View style={{ padding: 10 }}>
-        <RouteStart name={name}/>
+        <RouteStart name={name} setCount={setCount} />
         <RouteEnd />
         <Break />
       </View>
@@ -49,6 +49,8 @@ function Body() {
 }
 
 function Footer() {
+  const [checked, setChecked] = useState(false);
+
   return (
     <>
       <View style={{ backgroundColor: 'white' }}>
@@ -86,10 +88,11 @@ function Footer() {
             paddingBottom: 20
           }}
         >
-          <Checkbox />
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
-            Save as default
-          </Text>
+          <CheckBox
+            title="Save as default"
+            checked={checked}
+            onPress={() => setChecked(!checked)}
+          />
         </View>
       </View>
     </>

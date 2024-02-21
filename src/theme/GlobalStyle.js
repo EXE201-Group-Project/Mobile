@@ -17,5 +17,13 @@ export const GlobalStyle = StyleSheet.create({
   subHeader: {
     fontSize: 14,
     fontWeight: '400'
+  },
+
+  //Justify
+  justifyCont: {
+    justifyContent: 'space-between',
+  },
+  AlignItem: {
+    alignItems:'center'
   }
 })

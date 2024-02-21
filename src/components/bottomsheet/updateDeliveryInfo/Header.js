@@ -1,17 +1,22 @@
 //import liraries
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 // create a component
-const Header = ({handleUndoSelection, mod, mod1, mod2, closeBottomSheet, closeBottomSheet1, closeBottomSheet2}) => {
+const Header = ({mod, mod1, mod2, closeBottomSheet, closeBottomSheet1, closeBottomSheet2}) => {
   return (
 <View>
   {mod && (
     <View
-      style={styles.container}
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 15
+      }}
     >
       <View>
-        <TouchableOpacity onPress={handleUndoSelection}>
+        <TouchableOpacity>
           <Text style={{fontSize: 17, fontWeight: "bold"}}>Clear</Text>
         </TouchableOpacity>
       </View>
@@ -27,10 +32,15 @@ const Header = ({handleUndoSelection, mod, mod1, mod2, closeBottomSheet, closeBo
   )}
   {mod1 && (
     <View
-      style={styles.container}
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 15
+      }}
     >
       <View>
-        <TouchableOpacity onPress={handleUndoSelection}>
+        <TouchableOpacity>
           <Text style={{fontSize: 17, fontWeight: "bold"}}>Clear</Text>
         </TouchableOpacity>
       </View>
@@ -46,10 +56,15 @@ const Header = ({handleUndoSelection, mod, mod1, mod2, closeBottomSheet, closeBo
   )}
   {mod2 && (
     <View
-      style={styles.container}
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 15
+      }}
     >
       <View>
-        <TouchableOpacity onPress={handleUndoSelection}>
+        <TouchableOpacity>
           <Text style={{fontSize: 17, fontWeight: "bold"}}>Clear</Text>
         </TouchableOpacity>
       </View>
@@ -66,14 +81,5 @@ const Header = ({handleUndoSelection, mod, mod1, mod2, closeBottomSheet, closeBo
 </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 15
-  },
-});
 
 export default Header;

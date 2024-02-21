@@ -7,10 +7,12 @@ import Home from '../../pages/Home/Home';
 import AddedStop from '../../components/bottomsheet/AddedStop';
 import SearchChangeAddress from '../../pages/Home/SearchChangeAddress';
 import RouteSetting from '../../pages/Route/RouteSetting';
-import SearchStartAddress from '../../pages/Home/SearchStartAddress';
+import SearchStartEndAddress from '../../pages/Home/SearchStartEndAddress';
 import LeftDrawer from '../../components/navigation/LeftDrawer';
 import AuthStackNavigator from '../authStack/AuthStack';
-
+import EditStop from '../../pages/EditStop/EditStop';
+import EditNote from '../../pages/EditNote/EditNote';
+import AddBreak from '../../pages/AddBreak/AddBreak';
 
 const Stack = createStackNavigator();
 
@@ -53,8 +55,8 @@ export default function UnAuthStackNavigator() {
         }}
       />
       <Stack.Screen
-        component={SearchStartAddress}
-        name={Screen.SearchStartAddress}
+        component={SearchStartEndAddress}
+        name={Screen.SearchStartEndAddress}
         options={{
           headerShown: false
         }}
@@ -69,6 +71,27 @@ export default function UnAuthStackNavigator() {
       <Stack.Screen
         component={AuthStackNavigator}
         name={Screen.AuthStackNavigator}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={EditStop}
+        name={Screen.EditStop}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={EditNote}
+        name={Screen.EditNote}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        component={AddBreak}
+        name={Screen.AddBreak}
         options={{
           headerShown: false
         }}

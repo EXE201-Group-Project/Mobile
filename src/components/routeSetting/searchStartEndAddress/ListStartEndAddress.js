@@ -1,12 +1,12 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Screen } from "../../navigator/Screen";
+import { Screen } from "../../../navigator/Screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-// definition of the Item, which will be rendered in the FlatListStartAddress
+// definition of the Item, which will be rendered in the FlatListStartEndAddress
 const Item = ({ name, details, onClick }) => (
   <TouchableOpacity onPress={onClick} style={styles.item}>
     <Text style={styles.title}>{name}</Text>
@@ -14,8 +14,9 @@ const Item = ({ name, details, onClick }) => (
   </TouchableOpacity>
 );
 
-const ListStartAddress = ({ data, searchPhrase}) => {
-
+const ListStartEndAddress = ({ data, searchPhrase}) => {
+  // const [name, setName] = useState();
+  
   const navigation = useNavigation();
 
   const filteredData = data.filter((item) =>
@@ -23,13 +24,16 @@ const ListStartAddress = ({ data, searchPhrase}) => {
   );
 
   const handleItemClick = (item) => {
+    // setName(item.name);
     // console.log(item.id);
     // setSelectedItem(item);
     // setID=(item.id);
     // const key = `${item.id}_address`;
     // AsyncStorage.setItem(key, item.name);
+    // console.log("name: ", name)
     navigation.navigate(Screen.RouteSetting, {
         name: item.name,
+        setCount: (preState) => preState + 1,
     });
   };
 
@@ -66,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListStartAddress;
+export default ListStartEndAddress;

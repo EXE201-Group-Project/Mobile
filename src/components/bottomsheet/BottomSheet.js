@@ -5,11 +5,19 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import SearchBar from './SearchBar';
 import List from './List';
 import AddedStop from './AddedStop';
-import RouteTrip from './RouteTrip';
+import RouteTrip from './routeTrip/RouteTrip';
+import { MenuProvider } from 'react-native-popup-menu';
+import RouteOnline from './Direction/RouteOnline';
+import DirectionInfo from './Direction/DirectionInfo';
+import {
+  BottomSheetScrollView,
+  BottomSheetModalProvider
+} from '@gorhom/bottom-sheet';
+
 
 // create a component
-const BottomSheetHome = () => {
-  const snapPoints = useMemo(() => ['10%', '50%', '92%'], []);
+const BottomSheetHome = ({setShowDrawer, setShowOptimize, setMod, started, setStared, mod}) => {
+  const snapPoints = useMemo(() => ['20%', '50%', '97%'], []);
 
   const [searchPhrase, setSearchPhrase] = useState('');
   const [clicked, setClicked] = useState(false);
@@ -19,6 +27,7 @@ const BottomSheetHome = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   // const [hide, setHide] = useState(false);
 
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -35,8 +44,10 @@ const BottomSheetHome = () => {
   const handleIndexChange = () => {
     if (clicked) {
       setBottomSheetIndex(2);
+      setShowDrawer(false);
     } else {
       setBottomSheetIndex(1);
+      setShowDrawer(true);
     }
   };
 
@@ -47,7 +58,10 @@ const BottomSheetHome = () => {
       setSearchPhrase('');
       setClicked(false);
       setSelectedItem(null);
+      setShowDrawer(true);
       Keyboard.dismiss();
+    } else if (index === 2) {
+      setShowDrawer(false);
     }
   };
 
@@ -58,7 +72,17 @@ const BottomSheetHome = () => {
 
   useEffect(() => {
     setSnapHighest(bottomSheetIndex === 2);
+    
   }, [bottomSheetIndex]);
+
+  useEffect(() => {
+    // Add a condition to set setShowOptimize based on clicked and bottomSheetIndex
+    if (!clicked && bottomSheetIndex >= 0) {
+      setShowOptimize(true);
+    } else {
+      setShowOptimize(false);
+    }
+  }, [clicked, bottomSheetIndex]);
 
   // Effect to handle keyboard dismissals
   //   useEffect(() => {
@@ -78,6 +102,7 @@ const BottomSheetHome = () => {
   //     };
   //   }, [searchPhrase]);
   return (
+    <BottomSheetModalProvider>
     <BottomSheet
       index={bottomSheetIndex}
       snapPoints={snapPoints}
@@ -86,7 +111,9 @@ const BottomSheetHome = () => {
       handleIndicatorStyle={{ backgroundColor: 'gray' }}
       onChange={handleChange}
     >
+    <BottomSheetScrollView>
       <View style={styles.bottomSheetContainer}>
+      {mod !== null &&(
         <View style={styles.searchContainer}>
           <SearchBar
             searchPhrase={searchPhrase}
@@ -95,9 +122,14 @@ const BottomSheetHome = () => {
             setClicked={setClicked}
             snapHighest={snapHighest}
             setSelectedItem={setSelectedItem}
+            setMod={setMod}
+            setStared={setStared}
+            bottomSheetIndex={bottomSheetIndex}
           />
         </View>
-        {clicked == false && (
+      )}
+
+        {clicked == false && bottomSheetIndex > 0 && mod === true && (
           <RouteTrip />
         )}
         {searchPhrase && bottomSheetIndex === 2 && !selectedItem && (
@@ -118,8 +150,16 @@ const BottomSheetHome = () => {
         {clicked && selectedItem !== null && (
           <AddedStop selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
         )}
+        {mod === null &&(
+          <DirectionInfo setMod={setMod}/>
+        )}
+        {mod === false && (
+          <RouteOnline setMod={setMod} started={started} setStared={setStared}/>
+        )}
       </View>
+      </BottomSheetScrollView>
     </BottomSheet>
+    </BottomSheetModalProvider>
   );
 };
 
