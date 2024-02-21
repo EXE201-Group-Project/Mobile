@@ -4,7 +4,7 @@ import { Screen } from '../Screen';
 import Login from '../../pages/Login/Login';
 import Read from '../../pages/CRUD/Read';
 import Home from '../../pages/Home/Home';
-import AddedStop from '../../components/bottomSheet/AddedStop';
+import AddedStop from '../../components/bottomsheet/AddedStop';
 import SearchChangeAddress from '../../pages/Home/SearchChangeAddress';
 import RouteSetting from '../../pages/Route/RouteSetting';
 import SearchStartEndAddress from '../../pages/Home/SearchStartEndAddress';

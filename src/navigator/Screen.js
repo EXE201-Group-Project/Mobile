@@ -11,5 +11,6 @@ export const Screen = {
   LeftDrawer: 'LeftDrawer',
   EditStop: 'EditStop',
   EditNote: 'EditNote',
-  AddBreak: 'AddBreak'
+  AddBreak: 'AddBreak',
+  SearchStartEndAddress: 'SearchStartEndAddress',
 };
