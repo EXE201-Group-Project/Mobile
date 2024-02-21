@@ -50,7 +50,6 @@ const Home = ({ navigation }) => {
             <Icon name="menu-outline" size={26} />
           </Pressable>
         )}
-
         <MapView
           style={{ width: '100%', height: '100%' }}
           initialRegion={{
