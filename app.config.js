@@ -6,7 +6,7 @@ export default {
     slug: 'exe201-fe',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/DrMap_logo.png',
+    icon: './assets/icon.png',
     userInterfaceStyle: 'light',
     splash: {
       image: './assets/splash.png',

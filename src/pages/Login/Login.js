@@ -163,7 +163,7 @@ function Login() {
         >
           <View style={{ padding: 20, alignItems: 'center' }}>
             <Image
-              source={require('../../../assets/DrMap_logo.png')}
+              source={require('../../../assets/drMap_logo.png')}
               style={{
                 width: 150,
                 height: 150,
@@ -257,20 +257,6 @@ function Login() {
                 source={require('../../../assets/icons/facebook_logo.png')}
               />
             </Pressable>
-            {/* {userInfo ? (
-              <Button
-              style={styles.loginButton}
-              title="Logout"
-              onPress={logout}
-              />
-              ) : (
-                <GoogleSigninButton
-                size={GoogleSigninButton.Size.Standard}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={signinGoogle}
-                style={[styles.loginButton, styles.loginGoogleBtn]}
-                />
-              )} */}
           </View>
           <View
             style={{
