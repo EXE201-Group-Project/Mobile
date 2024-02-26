@@ -2,11 +2,11 @@ import { GOOGLE_MAP_API_KEY } from '@env';
 
 export default {
   expo: {
-    name: 'exe201-fe',
+    name: 'Doctor Map',
     slug: 'exe201-fe',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/icon.png',
+    icon: './assets/DrMap_logo.png',
     userInterfaceStyle: 'light',
     splash: {
       image: './assets/splash.png',

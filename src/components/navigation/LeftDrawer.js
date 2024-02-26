@@ -8,10 +8,20 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { GlobalStyle } from '../../theme/GlobalStyle';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { logout } from '../../redux/slice/authSlice';
 
 const LeftDrawer = (props) => {
   const userInfo = useSelector((state) => state.user.googleUser);
+  const dispatch = useDispatch();
+
+  const logoutGG = () => {
+    // setUserInfo();
+    dispatch(logout());
+    GoogleSignin.revokeAccess();
+    GoogleSignin.signOut();
+  };
 
   return (
     <View style={styles.container}>
@@ -48,7 +58,7 @@ const LeftDrawer = (props) => {
           <Text>Contact Us</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={logoutGG}
           style={[GlobalStyle.horizontal, styles.bottomNavItem]}
         >
           <Ionicon

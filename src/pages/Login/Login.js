@@ -9,9 +9,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
+  Pressable,
+  Alert
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, loginGoogle, logout } from '../../redux/slice/authSlice';
@@ -22,51 +25,14 @@ import {
   GoogleSigninButton
 } from '@react-native-google-signin/google-signin';
 
-function Header() {
-  return (
-    <View style={{ padding: 20 }}>
-      <View>
-        <Text
-          style={{
-            color: '#22ba3a',
-            textAlign: 'center',
-            fontWeight: 700,
-            fontSize: 35,
-            lineHeight: 35,
-            paddingTop: 100
-          }}
-        >
-          Doctor Map
-        </Text>
-        <Text
-          style={{
-            marginTop: 3,
-            color: 'black',
-            fontWeight: 400,
-            fontSize: 20,
-            lineHeight: 24,
-            paddingLeft: 10,
-            marginTop: 20,
-            marginHorizontal: 30,
-            textAlign: 'center',
-            fontWeight: 'bold'
-          }}
-        >
-          Optimize routes app {'\n'} for delivery
-        </Text>
-      </View>
-    </View>
-  );
-}
-
 function Body() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginAttemptCounter, setLoginAttemptCounter] = useState(0);
+  const user = useSelector((state) => state.user);
   const error = useSelector((state) => state.user.error);
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
-  const [loginAttemptCounter, setLoginAttemptCounter] = useState(0);
-  const user = useSelector((state) => state.user);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -96,7 +62,7 @@ function Body() {
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <TextInput
         placeholder="Email"
-        style={[styles.input]}
+        style={[styles.input, { marginTop: 10 }]}
         value={email}
         onChangeText={handleEmailChange}
       />
@@ -106,15 +72,13 @@ function Body() {
         style={styles.input}
         secureTextEntry
         value={password}
-        onChangeText={handlePasswordChange} // Use handlePasswordChange as the event handler
+        onChangeText={handlePasswordChange}
       />
       <TouchableOpacity
         onPress={() => {}}
-        style={{ alignItems: 'flex-end', marginTop: 20, marginLeft: 220 }}
+        style={{ alignItems: 'flex-end', marginTop: 10, marginLeft: 220 }}
       >
-        <Text style={{ color: '#22ba3a', fontWeight: 'bold' }}>
-          Forgot your password?
-        </Text>
+        <Text style={{ color: '#999999' }}>Forgot your password?</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Sign in</Text>
@@ -134,7 +98,7 @@ function Footer() {
   return (
     <View
       style={{
-        backgroundColor: '#f1edea',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center'
       }}
@@ -170,12 +134,11 @@ function Login() {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const user = await GoogleSignin.signIn();
+      setLoading(false);
       setUserInfo(user);
+      dispatch(loginGoogle(user));
       console.log('-------------- User Info --------------');
       console.log(user);
-      dispatch(loginGoogle(user));
-      setError();
-      setLoading(false);
     } catch (e) {
       setError(e);
     }
@@ -188,45 +151,143 @@ function Login() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#f1edea' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         enabled
       >
-        {/* <ActivityIndicator></ActivityIndicator> */}
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"
         >
-          <Header />
+          <View style={{ padding: 20, alignItems: 'center' }}>
+            <Image
+              source={require('../../../assets/DrMap_logo.png')}
+              style={{
+                width: 150,
+                height: 150,
+                justifyContent: 'center'
+              }}
+            />
+            {/* <Text
+                style={{
+                  //Main color: 00CCFF
+                  color: '#22ba3a',
+                  textAlign: 'center',
+                  fontWeight: 700,
+                  fontSize: 35,
+                  lineHeight: 35,
+                  paddingTop: 100
+                }}
+              >
+                Doctor Map
+              </Text> */}
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 20,
+                fontWeight: 400,
+                lineHeight: 24,
+                marginTop: 10,
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}
+            >
+              Optimize routes app {'\n'} for delivery
+            </Text>
+          </View>
+
           <Body />
+          <View style={styles.footerSection}>
+            <View
+              style={{
+                flex: 3,
+                width: '80%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 15
+              }}
+            >
+              <Text style={styles.middleline}></Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  marginHorizontal: 5
+                }}
+              >
+                Or Sign In With
+              </Text>
+              <Text style={styles.middleline}></Text>
+            </View>
+          </View>
           <View
             style={{
-              flex: 1,
+              flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: 0,
-              marginTop: -30
+              marginTop: 20
             }}
           >
-            {userInfo ? (
-              <Button
-                style={styles.loginButton}
-                title="Logout"
-                onPress={logout}
+            <Pressable onPress={() => signinGoogle()}>
+              <Avatar.Image
+                size={34}
+                style={[styles.otherLoginBtn, { marginRight: 30 }]}
+                source={require('../../../assets/icons/google_logo.png')}
               />
-            ) : (
-              <GoogleSigninButton
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                Alert.alert(
+                  'Upcoming feature..',
+                  'We currently developing this feature, sorry for this inconvenience',
+                  [
+                    {
+                      text: 'Come back'
+                    }
+                  ]
+                );
+              }}
+            >
+              <Avatar.Image
+                size={34}
+                style={styles.otherLoginBtn}
+                source={require('../../../assets/icons/facebook_logo.png')}
+              />
+            </Pressable>
+            {/* {userInfo ? (
+              <Button
+              style={styles.loginButton}
+              title="Logout"
+              onPress={logout}
+              />
+              ) : (
+                <GoogleSigninButton
                 size={GoogleSigninButton.Size.Standard}
                 color={GoogleSigninButton.Color.Dark}
                 onPress={signinGoogle}
                 style={[styles.loginButton, styles.loginGoogleBtn]}
-              />
-            )}
+                />
+              )} */}
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <Footer />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: 25,
+              marginBottom: 10
+            }}
+          >
+            <Text>Don't Have An Account? </Text>
+            <Pressable>
+              <Text
+                style={{ color: '#43A9EB', textDecorationLine: 'underline' }}
+              >
+                Sign up
+              </Text>
+            </Pressable>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -239,15 +300,13 @@ const styles = StyleSheet.create({
     marginTop: 25,
     width: 350,
     backgroundColor: '#f1f4ff',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     paddingHorizontal: 20
   },
   loginButton: {
-    marginTop: 40,
-    backgroundColor: '#22ba3a',
+    marginTop: 25,
+    backgroundColor: '#43A9EB',
     paddingVertical: 15,
     borderRadius: 8,
     width: 350,
@@ -296,6 +355,29 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 5,
     width: '80%'
+  },
+  footerSection: {
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  middleline: {
+    flex: 1,
+    height: 0,
+    borderTopWidth: 1,
+    borderColor: '#d6d6c2',
+    backgroundColor: 'red'
+  },
+  otherLoginBtn: {
+    width: 58,
+    height: 58,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#e6e6e6',
+    elevation: 3
   }
 });
 

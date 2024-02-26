@@ -47,8 +47,8 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             }
           })
           .catch((error) => console.log('error', error));
-        console.log('debounded 0.5s');
-      }, 500);
+        console.log('debounded 0.25s');
+      }, 250);
       return () => clearTimeout(debounceTime);
     }
   }, [searchPhrase]);
