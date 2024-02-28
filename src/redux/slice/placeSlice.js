@@ -9,8 +9,8 @@ export const addPlace = createAction('addPlace');
 //Init data type
 const initPlacesState = {
   index: 0,
-  name: '',
-  formatted: '',
+  place_id: '',
+  description: '',
   location: {
     latlng: {
       latitude: 0,

@@ -45,7 +45,7 @@ const SearchBar = ({
           style={{ marginLeft: 1 }}
           onPress={() => {
             console.log('---------Places here');
-            console.log(places);
+            console.log(JSON.stringify(places));
           }}
         />
         {/* Input field */}

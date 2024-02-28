@@ -3,9 +3,11 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
+import customMarker from '../../../assets/icons/marker_96.png';
 
 export default function GgMap({ navigation, isShowMenu }) {
   const polyline = useSelector((state) => state.place.polyline);
+  const places = useSelector((state) => state.place.places);
   const menuNavStyles = isShowMenu
     ? [styles.navigationBtn, styles.shadowBoxAndroid, styles.shadowBoxIOS]
     : { display: 'none' };
@@ -23,18 +25,39 @@ export default function GgMap({ navigation, isShowMenu }) {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
+          latitude: 16.16666666,
+          longitude: 107.83333333,
+          latitudeDelta: 0.8,
+          longitudeDelta: 0.8
         }}
         showsCompass={false}
       >
-        <Marker
-          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-          title="Marker Title"
-          description="Marker Description"
-        />
+        {places
+          ? places.map((place) => {
+              const {
+                location: {
+                  latlng: { latitude, longitude }
+                }
+              } = place;
+              const { description, place_id } = place;
+              return (
+                <Marker
+                  coordinate={{
+                    latitude: latitude,
+                    longitude: longitude
+                  }}
+                  title={place_id ? place_id : description}
+                  description={description}
+                  icon={customMarker}
+                  style={{
+                    width: 20,
+                    height: 20
+                  }}
+                />
+              );
+            })
+          : ''}
+
         <Polyline
           coordinates={polyline}
           strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider

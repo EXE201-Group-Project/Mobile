@@ -11,8 +11,8 @@ import { addPlace } from '../../redux/slice/placeSlice';
 
 const initPlacesState = {
   index: 0,
-  name: '',
-  formatted: '',
+  place_id: '',
+  description: '',
   location: {
     latlng: {
       latitude: 0,
@@ -48,8 +48,8 @@ const List = ({ data, setCLicked, setSelectedItem }) => {
     const formattedData = {
       ...initPlacesState,
       index: places.length,
-      name: item.name,
-      formatted: item.formatted,
+      place_id: item.name,
+      description: item.formatted,
       location: {
         ...initPlacesState.location,
         latlng: {
