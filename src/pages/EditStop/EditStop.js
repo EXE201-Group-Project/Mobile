@@ -463,7 +463,7 @@ const EditStop = ({ selectedItem, setSelectedItem }) => {
                   marginBottom: 10
                 }}
                 onPress={() => {
-                  setSelectedItem(null);
+                  // setSelectedItem(null);
                 }}
               >
                 <Text

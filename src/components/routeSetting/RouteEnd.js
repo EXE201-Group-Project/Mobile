@@ -33,9 +33,9 @@ const RouteEnd = () => {
   };
 
   const searchEndAddress = () => {
-    navigation.navigate(Screen.SearchStartEndAddress)
+    navigation.navigate(Screen.SearchStartEndAddress);
     setModalVisible(false);
-  }
+  };
 
   const ModalButton = ({ icon, title, subtitle, onPress }) => (
     <TouchableOpacity
@@ -59,21 +59,12 @@ const RouteEnd = () => {
 
   return (
     <View>
-      <Text
-        style={styles.routeEnd}
-      >
-        Route end
-      </Text>
+      <Text style={styles.routeEnd}>Route end</Text>
       <Text style={{ fontSize: 18 }}>Where do you end your route?</Text>
       {
         <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={toggleModal}
-          >
-            <View
-              style={styles.buttonContainer}
-            >
+          <TouchableOpacity style={styles.button} onPress={toggleModal}>
+            <View style={styles.buttonContainer}>
               <View style={[GlobalStyle.horizontal, GlobalStyle.AlignItem]}>
                 <MaterialCommunityIcons
                   name="flag-variant"
@@ -92,12 +83,8 @@ const RouteEnd = () => {
       }
       {
         <View>
-          <TouchableOpacity
-            style={styles.button}
-          >
-            <View
-              style={styles.endTime}
-            >
+          <TouchableOpacity style={styles.button}>
+            <View style={styles.endTime}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <AntDesign
                   name="clockcircleo"
@@ -115,41 +102,62 @@ const RouteEnd = () => {
         </View>
       }
       <View style={styles.containers}>
-  <Modal
-    animationType="fade"
-    transparent={true}
-    visible={isModalVisible}
-    onRequestClose={closeModal}
-  >
-    <TouchableWithoutFeedback onPress={closeModal}>
-      <View style={styles.modalContainer}>
-        <TouchableWithoutFeedback>
-          <View style={styles.modalContent}>
-            {/* Your modal content goes here */}
-            <ModalButton
-              icon={<Fontisto name="arrow-return-left" size={24} color="#4e8beb" style={{ marginRight: 20 }} />}
-              title="Return to start"
-              subtitle="RoundTrip (recommended)"
-              onPress={{}}
-            />
-            <ModalButton
-              icon={<FontAwesome5 name="map-marker-alt" size={24} color="#4e8beb" style={{ marginRight: 20 }} />}
-              title="End at other address"
-              subtitle="Enter any address"
-              onPress={searchEndAddress}
-            />
-            <ModalButton
-              icon={<MaterialIcons name="cancel" size={24} color="#4e8beb" style={{ marginRight: 20 }} />}
-              title="Don't use end location"
-              subtitle="Not recommended for couriers"
-              onPress={() => navigation.navigate(Screen.RouteSetting)}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={closeModal}
+        >
+          <TouchableWithoutFeedback onPress={closeModal}>
+            <View style={styles.modalContainer}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalContent}>
+                  {/* Your modal content goes here */}
+                  <ModalButton
+                    icon={
+                      <Fontisto
+                        name="arrow-return-left"
+                        size={24}
+                        color="#4e8beb"
+                        style={{ marginRight: 20 }}
+                      />
+                    }
+                    title="Return to start"
+                    subtitle="RoundTrip (recommended)"
+                    onPress={{}}
+                  />
+                  <ModalButton
+                    icon={
+                      <FontAwesome5
+                        name="map-marker-alt"
+                        size={24}
+                        color="#4e8beb"
+                        style={{ marginRight: 20 }}
+                      />
+                    }
+                    title="End at other address"
+                    subtitle="Enter any address"
+                    onPress={searchEndAddress}
+                  />
+                  <ModalButton
+                    icon={
+                      <MaterialIcons
+                        name="cancel"
+                        size={24}
+                        color="#4e8beb"
+                        style={{ marginRight: 20 }}
+                      />
+                    }
+                    title="Don't use end location"
+                    subtitle="Not recommended for couriers"
+                    onPress={() => navigation.navigate(Screen.RouteSetting)}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
       </View>
-    </TouchableWithoutFeedback>
-  </Modal>
-</View>
     </View>
   );
 };
@@ -180,8 +188,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: '90%',
     height: '40%',
-    justifyContent: 'center',
-
+    justifyContent: 'center'
   },
   routeEnd: {
     fontSize: 25,
