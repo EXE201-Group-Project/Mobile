@@ -35,7 +35,7 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
       const debounceTime = setTimeout(() => {
         const formatSearch = searchPhrase.replaceAll(' ', '%20');
         fetch(
-          `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&bias=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=${GEOAPIFY_API_KEY}`
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&filter=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=${GEOAPIFY_API_KEY}`
         )
           .then((response) => response.json())
           .then((result) => {

@@ -26,18 +26,14 @@ const placeSlice = createSlice({
     error: '',
     loading: false,
     places: [],
-    polyline: [
-      { latitude: 37.8025259, longitude: -122.4351431 },
-      { latitude: 37.7896386, longitude: -122.421646 },
-      { latitude: 37.7665248, longitude: -122.4161628 },
-      { latitude: 37.7734153, longitude: -122.4577787 },
-      { latitude: 37.7948605, longitude: -122.4596065 },
-      { latitude: 37.8025259, longitude: -122.4351431 }
-    ]
+    polyline: []
   },
   reducers: {
     clearPlaces: (state, action) => {
       state.places = [];
+    },
+    clearPolylines: (state, action) => {
+      state.polyline = [];
     }
   },
   extraReducers: (builder) => {
@@ -58,5 +54,5 @@ const placeSlice = createSlice({
   }
 });
 
-export const { clearPlaces } = placeSlice.actions;
+export const { clearPlaces, clearPolylines } = placeSlice.actions;
 export default placeSlice.reducer;

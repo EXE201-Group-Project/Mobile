@@ -15,19 +15,19 @@ export default function GgMap({ navigation, isShowMenu }) {
   const polyColors = [
     '#007bff', //Blue
     '#28a745', //Green
+    '#fd7e14', //Orange
+    '#dc3545', //Red
+    '#00bcd4', //Cyan
     '#ffc107', //Amber
     '#6f42c1', //Purple
     '#e83e8c', //Pink
-    '#fd7e14', //Orange
     '#ffc107', //Yellow
     '#20c997', //Teal
-    '#dc3545', //Red
     '#6610f2', //Indigo
     '#17a2b8', //Light Blue
     '#4caf50', //Light Green
     '#ff5722', //Deep Orange
     '#673ab7', //Deep Purple
-    '#00bcd4', //Cyan
     '#cddc39', //Lime
     '#795548', //Brown
     '#adb5bd', //Grey
@@ -95,13 +95,15 @@ export default function GgMap({ navigation, isShowMenu }) {
             })
           : ''}
         {console.log('polyline hereeee ', polyline)}
-        {polyline.map((trip, index) => (
-          <Polyline
-            coordinates={trip}
-            strokeColor={polyColors[index]} // fallback for when `strokeColors` is not supported by the map-provider
-            strokeWidth={6}
-          />
-        ))}
+        {polyline.length > 0
+          ? polyline.map((trip, index) => (
+              <Polyline
+                coordinates={trip}
+                strokeColor={polyColors[index]} // fallback for when `strokeColors` is not supported by the map-provider
+                strokeWidth={6}
+              />
+            ))
+          : ''}
         {/* <Polyline
           coordinates={polyline}
           strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider

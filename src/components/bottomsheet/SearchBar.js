@@ -59,7 +59,7 @@ const SearchBar = ({
           }}
         />
         {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {clicked && snapHighest && (
+        {/* {clicked && snapHighest && (
           <Entypo
             name="cross"
             size={20}
@@ -69,7 +69,7 @@ const SearchBar = ({
               setSearchPhrase('');
             }}
           />
-        )}
+        )} */}
       </View>
       {/* cancel button, depending on whether the search bar is clicked or not */}
       {clicked && snapHighest ? (
@@ -77,7 +77,7 @@ const SearchBar = ({
           name="squared-cross"
           size={20}
           color="black"
-          style={{ padding: 20 }}
+          style={{ width: '14%', textAlign: 'center' }}
           onPress={() => {
             Keyboard.dismiss();
             setClicked(false);
@@ -89,7 +89,7 @@ const SearchBar = ({
           name="dots-three-vertical"
           size={20}
           color="black"
-          style={{ padding: 20 }}
+          style={{ textAlign: 'center', width: '14%' }}
           onPress={() => {
             // Handle the action when dots icon is pressed
           }}

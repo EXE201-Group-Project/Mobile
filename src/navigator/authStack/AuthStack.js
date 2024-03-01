@@ -38,14 +38,16 @@ function Root() {
         }}
       />
       <Drawer.Screen
-        name={Screen.Read}
+        // name={Screen.Read}
+        name="Hướng dẫn sử dụng"
         component={Read}
         options={{
           drawerIcon: ({ color }) => iconDrawer('book-outline', color)
         }}
       />
       <Drawer.Screen
-        name="Đăng nhập/Đăng ký"
+        // name="Đăng nhập/Đăng ký"
+        name="Tài khoản"
         component={Login}
         options={{
           drawerIcon: ({ color }) => iconDrawer('person-outline', color)

@@ -54,19 +54,25 @@ const LeftDrawer = (props) => {
           onPress={() => {}}
           style={[GlobalStyle.horizontal, styles.bottomNavItem]}
         >
-          <Ionicon name="call-outline" size={24} style={{ marginRight: 6 }} />
-          <Text>Contact Us</Text>
+          <Ionicon
+            color={'#595959'}
+            name="call-outline"
+            size={24}
+            style={{ marginRight: 6 }}
+          />
+          <Text style={styles.bottomNavText}>Liên lạc với chúng tôi</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={logoutGG}
           style={[GlobalStyle.horizontal, styles.bottomNavItem]}
         >
           <Ionicon
+            color={'#595959'}
             name="log-out-outline"
             size={24}
             style={{ marginRight: 6 }}
           />
-          <Text>Log out</Text>
+          <Text style={styles.bottomNavText}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -103,6 +109,10 @@ const styles = StyleSheet.create({
   },
   bottomNavItem: {
     paddingVertical: 12
+  },
+  bottomNavText: {
+    color: '#0d0d0d',
+    fontWeight: '500'
   }
 });
 

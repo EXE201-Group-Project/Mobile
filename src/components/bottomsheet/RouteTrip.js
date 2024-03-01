@@ -18,7 +18,11 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { clearPlaces, updatePolyline } from '../../redux/slice/placeSlice';
+import {
+  clearPlaces,
+  clearPolylines,
+  updatePolyline
+} from '../../redux/slice/placeSlice';
 import decodePolyline from '../../pages/Home/DecodePolyline';
 
 const TripItem = ({ navigation, index, title, subtitle, isActive }) => {
@@ -136,6 +140,7 @@ const RouteTrip = () => {
               <Pressable
                 onPress={() => {
                   dispatch(clearPlaces());
+                  dispatch(clearPolylines());
                 }}
               >
                 <Text
