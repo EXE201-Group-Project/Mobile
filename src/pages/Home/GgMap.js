@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import { View, Pressable, StyleSheet, Text } from 'react-native';
+import MapView, { Callout, Marker, Polyline } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import customMarker from '../../../assets/icons/marker_96.png';
@@ -8,20 +8,43 @@ import customMarker from '../../../assets/icons/marker_96.png';
 export default function GgMap({ navigation, isShowMenu }) {
   const polyline = useSelector((state) => state.place.polyline);
   const places = useSelector((state) => state.place.places);
-  const menuNavStyles = isShowMenu
-    ? [styles.navigationBtn, styles.shadowBoxAndroid, styles.shadowBoxIOS]
-    : { display: 'none' };
+  // const menuNavStyles = isShowMenu
+  //   ? [styles.navigationBtn, styles.shadowBoxAndroid, styles.shadowBoxIOS]
+  //   : { display: 'none' };
+
+  const polyColors = [
+    '#007bff', //Blue
+    '#28a745', //Green
+    '#ffc107', //Amber
+    '#6f42c1', //Purple
+    '#e83e8c', //Pink
+    '#fd7e14', //Orange
+    '#ffc107', //Yellow
+    '#20c997', //Teal
+    '#dc3545', //Red
+    '#6610f2', //Indigo
+    '#17a2b8', //Light Blue
+    '#4caf50', //Light Green
+    '#ff5722', //Deep Orange
+    '#673ab7', //Deep Purple
+    '#00bcd4', //Cyan
+    '#cddc39', //Lime
+    '#795548', //Brown
+    '#adb5bd', //Grey
+    '#f8f9fa', //Light Grey
+    '#343a40' //Black
+  ];
 
   return (
     <View style={styles.container}>
-      <Pressable
+      {/* <Pressable
         style={menuNavStyles}
         onPress={() => {
           navigation.openDrawer();
         }}
       >
         <Icon name="menu-outline" size={26} />
-      </Pressable>
+      </Pressable> */}
       <MapView
         style={styles.map}
         initialRegion={{
@@ -33,7 +56,7 @@ export default function GgMap({ navigation, isShowMenu }) {
         showsCompass={false}
       >
         {places
-          ? places.map((place) => {
+          ? places.map((place, index) => {
               const {
                 location: {
                   latlng: { latitude, longitude }
@@ -49,16 +72,37 @@ export default function GgMap({ navigation, isShowMenu }) {
                   title={place_id ? place_id : description}
                   description={description}
                   icon={customMarker}
-                  style={{
-                    width: 20,
-                    height: 20
-                  }}
-                />
+                  // style={{
+                  //   width: 50,
+                  //   height: 50
+                  // }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontSize: 13,
+                        paddingTop: 2,
+                        paddingLeft: 3,
+                        width: 30
+                      }}
+                    >
+                      {index + 1}
+                    </Text>
+                  </View>
+                </Marker>
               );
             })
           : ''}
-
-        <Polyline
+        {console.log('polyline hereeee ', polyline)}
+        {polyline.map((trip, index) => (
+          <Polyline
+            coordinates={trip}
+            strokeColor={polyColors[index]} // fallback for when `strokeColors` is not supported by the map-provider
+            strokeWidth={6}
+          />
+        ))}
+        {/* <Polyline
           coordinates={polyline}
           strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
           strokeColors={[
@@ -70,7 +114,7 @@ export default function GgMap({ navigation, isShowMenu }) {
             '#7F0000'
           ]}
           strokeWidth={6}
-        />
+        /> */}
       </MapView>
     </View>
   );

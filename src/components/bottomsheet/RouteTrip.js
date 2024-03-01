@@ -101,7 +101,8 @@ const RouteTrip = () => {
         result.map((item) => {
           const encoded = item.routes.routes[0].polyline.encodedPolyline;
           const decoded = decodePolyline(encoded);
-          polylines.push(...decoded);
+          console.log('Decode hereeeeee ', decoded);
+          polylines.push(decoded);
         });
         dispatch(updatePolyline({ polyline: polylines }));
       }
@@ -112,10 +113,17 @@ const RouteTrip = () => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 10 }}>
       {
-        <View>
-          <View style={{ marginLeft: 15, marginVertical: 10 }}>
+        <View style={{ flex: 2 }}>
+          <View
+            style={{
+              marginHorizontal: 15,
+              marginVertical: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
             <Text
               onPress={() => {
                 console.log(places);
@@ -124,20 +132,32 @@ const RouteTrip = () => {
             >
               {places.length} điểm dừng
             </Text>
+            {places.length > 0 ? (
+              <Pressable
+                onPress={() => {
+                  dispatch(clearPlaces());
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontStyle: 'italic',
+                    color: '#808080',
+                    textDecorationLine: 'underline'
+                  }}
+                >
+                  Xóa chuyến
+                </Text>
+              </Pressable>
+            ) : (
+              ''
+            )}
           </View>
+
           <View style={{ marginLeft: 15, marginBottom: 15 }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
               Chuyến đi đầu tiên của tôi
             </Text>
-            <Pressable
-              onPress={() => {
-                dispatch(clearPlaces());
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                Xoa chuyen
-              </Text>
-            </Pressable>
           </View>
           <View
             style={{ marginLeft: 15, marginBottom: 15, flexDirection: 'row' }}
@@ -175,24 +195,31 @@ const RouteTrip = () => {
       }
 
       {places.length > 0 ? (
-        <View>
-          {/* <BottomSheetScrollView style={{ height: 400, flex: 1 }}> */}
-          {/* <BottomSheetScrollView> */}
-          {places.map((item) => {
-            return (
-              <TripItem
-                key={item.index}
-                index={item.index + 1}
-                //Mot so vi tri khong co title
-                title={item.place_id ? item.place_id : item.description}
-                subtitle={item.description}
-                isActive={true}
-              />
-            );
-          })}
-          {/* </BottomSheetScrollView> */}
+        <View style={{ flex: 8 }}>
+          <View style={{ flex: 2 }}>
+            <BottomSheetScrollView>
+              {places.map((item) => {
+                return (
+                  <TripItem
+                    key={item.index}
+                    index={item.index + 1}
+                    //Mot so vi tri khong co title
+                    title={item.place_id ? item.place_id : item.description}
+                    subtitle={item.description}
+                    isActive={true}
+                  />
+                );
+              })}
+            </BottomSheetScrollView>
+          </View>
 
-          <View style={{ alignItems: 'center' }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              paddingTop: 10
+            }}
+          >
             <Button
               icon="cached"
               mode="contained"
@@ -205,16 +232,17 @@ const RouteTrip = () => {
               Tối ưu hóa đường đi
             </Button>
           </View>
-          {/* </BottomSheetScrollView> */}
         </View>
       ) : (
-        <TripItem
-          navigation={navigation}
-          index={<SimpleLineIcons name="question" size={24} />}
-          title={'Chưa có địa điểm'}
-          subtitle={'Hãy thử thêm mới nhé!'}
-          isActive={true}
-        />
+        <View style={{ flex: 8 }}>
+          <TripItem
+            navigation={navigation}
+            index={<SimpleLineIcons name="question" size={24} />}
+            title={'Chưa có địa điểm'}
+            subtitle={'Hãy thử thêm mới nhé!'}
+            isActive={true}
+          />
+        </View>
       )}
 
       {/* ----------- TINH NANG AN ------------------------- */}

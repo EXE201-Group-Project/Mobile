@@ -47,8 +47,8 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             }
           })
           .catch((error) => console.log('error', error));
-        console.log('debounded 0.25s');
-      }, 250);
+        console.log('debounded 0.42s');
+      }, 420);
       return () => clearTimeout(debounceTime);
     }
   }, [searchPhrase]);
@@ -80,6 +80,7 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
 
   useEffect(() => {
     setSnapHighest(bottomSheetIndex === 2);
+
     if (bottomSheetIndex === 2) {
       setIsShowMenu(false);
     } else {
@@ -151,7 +152,11 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
           />
         </View>
         {/* Normal component */}
-        {clicked == false && <RouteTrip />}
+        {clicked == false && (
+          <View style={{ height: '100%' }}>
+            <RouteTrip />
+          </View>
+        )}
         {/* Sau khi an chon search -> show cac danh sach */}
         {clicked && bottomSheetIndex === 2 && !selectedItem && (
           <List
