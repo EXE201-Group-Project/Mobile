@@ -137,8 +137,8 @@ function Login() {
       setLoading(false);
       setUserInfo(user);
       dispatch(loginGoogle(user));
-      console.log('-------------- User Info --------------');
-      console.log(user);
+      // console.log('-------------- User Info --------------');
+      // console.log(user);
     } catch (e) {
       setError(e);
     }

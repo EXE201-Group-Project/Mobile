@@ -94,7 +94,6 @@ export default function GgMap({ navigation, isShowMenu }) {
               );
             })
           : ''}
-        {console.log('polyline hereeee ', polyline)}
         {polyline.length > 0
           ? polyline.map((trip, index) => (
               <Polyline

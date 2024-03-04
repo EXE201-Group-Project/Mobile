@@ -44,7 +44,6 @@ const List = ({ data, setCLicked, setSelectedItem }) => {
   const places = useSelector((state) => state.place.places);
 
   const handleItemClick = (item) => {
-    console.log('Item been selected -----------------------------', item);
     const formattedData = {
       ...initPlacesState,
       index: places.length,

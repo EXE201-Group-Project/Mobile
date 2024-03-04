@@ -45,8 +45,8 @@ const placeSlice = createSlice({
     });
     builder.addCase(addPlace, (state, action) => {
       const { place } = action.payload;
-      console.log('This is place gonna be added');
-      console.log(place);
+      // console.log('This is place gonna be added');
+      // console.log(place);
       if (place) {
         state.places = [...state.places, place];
       }

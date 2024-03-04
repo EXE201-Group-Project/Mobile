@@ -43,10 +43,10 @@ const SearchBar = ({
           size={20}
           color="black"
           style={{ marginLeft: 1 }}
-          onPress={() => {
-            console.log('---------Places here');
-            console.log(JSON.stringify(places));
-          }}
+          // onPress={() => {
+          //   console.log('---------Places here');
+          //   console.log(JSON.stringify(places));
+          // }}
         />
         {/* Input field */}
         <TextInput

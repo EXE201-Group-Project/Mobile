@@ -17,8 +17,8 @@ const PackFinderBottom = ({
   const snapPoints = ['30%', '60%', '80%'];
 
   const [dataaa, setDataaa] = useState();
-  console.log('dataaa', dataaa);
-  console.log(id);
+  // console.log('dataaa', dataaa);
+  // console.log(id);
 
   useEffect(() => {
     const getSelectedItem = async () => {

@@ -105,12 +105,12 @@ const RouteTrip = () => {
         result.map((item) => {
           const encoded = item.routes.routes[0].polyline.encodedPolyline;
           const decoded = decodePolyline(encoded);
-          console.log('Decode hereeeeee ', decoded);
+          // console.log('Decode hereeeeee ', decoded);
           polylines.push(decoded);
         });
         dispatch(updatePolyline({ polyline: polylines }));
       }
-      console.log('hehe', JSON.stringify(result));
+      // console.log('hehe', JSON.stringify(result));
     } catch (error) {
       console.log(error);
     }
@@ -129,10 +129,10 @@ const RouteTrip = () => {
             }}
           >
             <Text
-              onPress={() => {
-                console.log(places);
-                console.log('do dài ', places.length);
-              }}
+            // onPress={() => {
+            //   console.log(places);
+            //   console.log('do dài ', places.length);
+            // }}
             >
               {places.length} điểm dừng
             </Text>

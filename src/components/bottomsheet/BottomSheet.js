@@ -39,7 +39,7 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
         )
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
+            // console.log(result);
             if (result.results) {
               setSearchData((searchData) => result.results);
             } else {
@@ -47,7 +47,6 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             }
           })
           .catch((error) => console.log('error', error));
-        console.log('debounded 0.42s');
       }, 420);
       return () => clearTimeout(debounceTime);
     }
@@ -99,7 +98,6 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
     const rs2 = decodePolyline(second);
     rs.push([...rs1]);
     rs.push([...rs2]);
-    console.log(rs);
     return rs[0];
   };
 
