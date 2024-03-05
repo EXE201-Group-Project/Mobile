@@ -80,7 +80,12 @@ function Body() {
       >
         <Text style={{ color: '#999999' }}>Forgot your password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity
+        style={styles.loginButton}
+        // onPress={handleLogin}
+        //Not create login yet
+        onPress={() => {}}
+      >
         <Text style={styles.loginButtonText}>Sign in</Text>
       </TouchableOpacity>
     </View>
