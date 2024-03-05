@@ -31,7 +31,12 @@ const Read = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable
+      <Text>Trang hướng dẫn sử dụng</Text>
+      <Text style={{ textAlign: 'center', width: '80%' }}>
+        Chúng tôi đang thiết kế... Xin bạn hãy kiên nhẫn chào đón trong bản cập
+        nhật kế!
+      </Text>
+      {/* <Pressable
         onPress={() => {
           console.log(GG_MAP_SERVICE_API_KEY);
         }}
@@ -65,7 +70,7 @@ const Read = () => {
       </View>
       <TouchableOpacity onPress={handleLogout}>
         <Text>logout</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c3e50'
+    backgroundColor: '#FFFFFF'
   }
 });
 

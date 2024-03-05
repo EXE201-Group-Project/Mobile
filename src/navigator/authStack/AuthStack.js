@@ -17,6 +17,7 @@ import AddedStop from '../../components/bottomsheet/AddedStop';
 import SearchChangeAddress from '../../components/searchChangeAddress/SearchChangeAddress';
 import RouteSetting from '../../pages/Route/RouteSetting';
 import SearchStartAddress from '../../pages/Home/SearchStartAddress';
+import IncomingFeature from '../../pages/IncomingFeature';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -40,7 +41,7 @@ function Root() {
       <Drawer.Screen
         // name={Screen.Read}
         name="Hướng dẫn sử dụng"
-        component={Read}
+        component={IncomingFeature}
         options={{
           drawerIcon: ({ color }) => iconDrawer('book-outline', color)
         }}
@@ -48,14 +49,14 @@ function Root() {
       <Drawer.Screen
         // name="Đăng nhập/Đăng ký"
         name="Tài khoản"
-        component={Login}
+        component={IncomingFeature}
         options={{
           drawerIcon: ({ color }) => iconDrawer('person-outline', color)
         }}
       />
       <Drawer.Screen
         name="Cài đặt"
-        component={SettingPage}
+        component={IncomingFeature}
         options={{
           drawerIcon: ({ color }) => iconDrawer('settings-outline', color)
         }}
@@ -73,36 +74,36 @@ export default function AuthStackNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        component={AddedStop}
         name={Screen.AddedStop}
+        component={AddedStop}
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen
-        component={SearchChangeAddress}
         name={Screen.SearchChangeAddress}
+        component={SearchChangeAddress}
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen
-        component={RouteSetting}
         name={Screen.RouteSetting}
+        component={RouteSetting}
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen
-        component={SearchStartAddress}
         name={Screen.SearchStartAddress}
+        component={SearchStartAddress}
         options={{
           headerShown: false
         }}
       />
       <Stack.Screen
-        component={AuthStackNavigator}
         name={Screen.AuthStackNavigator}
+        component={AuthStackNavigator}
         options={{
           headerShown: false
         }}

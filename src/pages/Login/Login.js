@@ -163,7 +163,7 @@ function Login() {
         >
           <View style={{ padding: 20, alignItems: 'center' }}>
             <Image
-              source={require('../../../assets/icons/drMapLogo.jpg')}
+              source={require('../../../assets/imgs/drMapLogo.jpg')}
               style={{
                 width: 150,
                 height: 150,
