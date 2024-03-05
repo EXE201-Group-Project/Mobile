@@ -1,14 +1,20 @@
 // import necessary components and styles
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { TextInput } from 'react-native-gesture-handler';
 
 const AddBreak = () => {
   const navigation = useNavigation();
   const [text, setText] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   return (
     <View style={styles.container}>
@@ -57,9 +63,58 @@ const AddBreak = () => {
             <View style={styles.labelContainer}>
               <Text style={styles.textOutline}>Break duration</Text>
             </View>
-            <TouchableOpacity style={styles.choose} />
+            <TouchableOpacity onPress={toggleModal} style={styles.choose} />
           </View>
         </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => {
+            setIsModalVisible(!isModalVisible);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+                Break duration (minutes)
+              </Text>
+              <TextInput keyboardType="numeric" style={styles.inputModal}>
+                <Text style={{fontSize:20}}>abc</Text>
+              </TextInput>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#4285F4',
+                  width: '97%',
+                  height: 60, // Adjust the height as needed
+                  borderRadius: 6,
+                  marginBottom: 10,
+                  justifyContent: 'center' // Center the text vertically
+                }}
+                onPress={() => {}}
+              >
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: 'white',
+                    fontSize: 20,
+                    lineHeight: 60, // Match the height of TouchableOpacity,
+                    fontWeight:"bold"
+                  }}
+                >
+                  Set
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsModalVisible(!isModalVisible);
+                }}
+              >
+                <Text style={{ fontSize: 20, color: '#4285F4' }}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
 
       {/* Fixed bottom button */}
@@ -156,6 +211,32 @@ const styles = StyleSheet.create({
   textOutline: {
     fontWeight: 'bold',
     color: '#535563'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: '80%',
+    height: '45%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputModal: {
+    borderWidth: 3,
+    borderColor: '#4285F4',
+    width: '97%',
+    height: 70,
+    borderRadius: 5,
+    marginTop: 15,
+    marginBottom: 23,
+    paddingLeft: 10 // Add padding to the right for spacing
   }
 });
 
