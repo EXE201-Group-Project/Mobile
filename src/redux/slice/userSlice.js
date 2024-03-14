@@ -1,16 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createUser = createAsyncThunk(
-  "createUser",
+  'createUser',
   async (data, { rejectWithValue }) => {
     const response = await fetch(
-      "https://6531f5484d4c2e3f333d6f79.mockapi.io/users",
+      'https://6531f5484d4c2e3f333d6f79.mockapi.io/users',
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       }
     );
     try {
@@ -24,12 +24,12 @@ export const createUser = createAsyncThunk(
 
 //read all users
 export const readAllUsers = createAsyncThunk(
-  "readAllUsers",
+  'readAllUsers',
   async (args, { rejectWithValue }) => {
     const response = await fetch(
-      "https://6531f5484d4c2e3f333d6f79.mockapi.io/users"
+      'https://6531f5484d4c2e3f333d6f79.mockapi.io/users'
     );
-    console.log(response);
+    // console.log(response);
     try {
       const json = await response.json();
       //   console.log(json);
@@ -41,16 +41,16 @@ export const readAllUsers = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  "updateUser",
+  'updateUser',
   async (data, { rejectWithValue }) => {
     const response = await fetch(
       `https://6531f5484d4c2e3f333d6f79.mockapi.io/users/${data.id}`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       }
     );
     try {
@@ -63,12 +63,12 @@ export const updateUser = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk(
-  "deleteUser",
+  'deleteUser',
   async (id, { rejectWithValue }) => {
     const response = await fetch(
       `https://6531f5484d4c2e3f333d6f79.mockapi.io/users/${id}`,
       {
-        method: "DELETE",
+        method: 'DELETE'
       }
     );
     try {
@@ -80,17 +80,17 @@ export const deleteUser = createAsyncThunk(
   }
 );
 const userSlice = createSlice({
-  name: "userSlice", //ten nay lam prefix cho action
+  name: 'userSlice', //ten nay lam prefix cho action
   initialState: {
     users: [],
     loading: false,
     error: null,
-    searchData: null, //goi du lieu tu search form vao state nay
+    searchData: null //goi du lieu tu search form vao state nay
   },
   reducers: {
     searchUser: (state, action) => {
       state.searchData = action.payload; //truyen payload vao cap nhap searchData
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -143,7 +143,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
-  },
+  }
 });
 
 export default userSlice.reducer;

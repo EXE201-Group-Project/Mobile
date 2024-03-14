@@ -92,8 +92,11 @@ const RouteTrip = () => {
     const formatPlaces = places.map(({ index, ...rest }) => rest);
 
     try {
+      dispatch(clearPolylines());
       const res = await fetch(
-        'http://35.187.149.47/api/Route?travelMode=TWO_WHEELER&routingPreference=TRAFFIC_AWARE&avoidHighways=true&avoidTolls=true&avoidFerries=true',
+        `http://35.187.149.47/api/Route?travelMode=${
+          isTwoWheels ? 'TWO_WHEELER' : 'DRIVE'
+        }&routingPreference=TRAFFIC_AWARE&avoidHighways=true&avoidTolls=true&avoidFerries=true`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

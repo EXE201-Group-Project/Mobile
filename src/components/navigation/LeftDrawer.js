@@ -11,35 +11,50 @@ import { GlobalStyle } from '../../theme/GlobalStyle';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { logout } from '../../redux/slice/authSlice';
+import { useEffect, useState } from 'react';
+import { clearPlaces, clearPolylines } from '../../redux/slice/placeSlice';
 
 const LeftDrawer = (props) => {
-  const userInfo = useSelector((state) => state.user.googleUser);
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
+  const [userAvatar, setUserAvatar] = useState(
+    require('../../../assets/imgs/userPic.jpg')
+  );
 
   const logoutGG = () => {
-    // setUserInfo();
     dispatch(logout());
+    dispatch(clearPlaces());
+    dispatch(clearPolylines());
     GoogleSignin.revokeAccess();
     GoogleSignin.signOut();
   };
 
+  useEffect(() => {
+    const photo = userInfo.photo
+      ? { uri: userInfo.photo }
+      : require('../../../assets/imgs/userPic.jpg');
+    setUserAvatar(photo);
+  }, [userInfo]);
+
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image
-          source={{
-            uri: userInfo.photo
-          }}
-          style={styles.wallpaper}
-        />
-        <Text style={GlobalStyle.header}>{userInfo.name}</Text>
-        <Text style={styles.subText}>{userInfo.email}</Text>
+        <Image source={userAvatar} style={styles.wallpaper} />
+        <Text style={GlobalStyle.header}>
+          {userInfo.user ? userInfo.user : 'null'}
+        </Text>
+        <Text style={styles.subText}>
+          {userInfo.email ? userInfo.email : 'null'}
+        </Text>
         <TouchableOpacity
           onPress={() => {}}
           style={[GlobalStyle.horizontal, styles.alignVerCenter]}
         >
           <Text
             style={[GlobalStyle.subHeader, styles.subText, { marginRight: 6 }]}
+            onPress={() => {
+              console.log(userInfo);
+            }}
           >
             Gói Premium
           </Text>

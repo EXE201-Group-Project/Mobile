@@ -1,18 +1,31 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Screen } from '../Screen';
 import Login from '../../pages/Login/Login';
-import Read from '../../pages/CRUD/Read';
-import Home from '../../pages/Home/Home';
-import AddedStop from '../../components/bottomsheet/AddedStop';
-import SearchChangeAddress from '../../pages/Home/SearchChangeAddress';
-import RouteSetting from '../../pages/Route/RouteSetting';
-import SearchStartAddress from '../../pages/Home/SearchStartAddress';
-import LeftDrawer from '../../components/navigation/LeftDrawer';
-import AuthStackNavigator from '../authStack/AuthStack';
+import Register from '../../pages/Login/Register';
 
 const Stack = createStackNavigator();
 
 export default function UnAuthStackNavigator() {
-  return <Login />;
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerShown: false
+      }}
+    >
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+      {/* <Stack.Screen
+        name="SIGNUP"
+        component={SignUp}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SIGNIN"
+        component={SignIn}
+        options={{ headerShown: false }}
+      /> */}
+    </Stack.Navigator>
+  );
 }

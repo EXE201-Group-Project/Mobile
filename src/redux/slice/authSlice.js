@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { config } from '../../config/config';
 
 export const loginGoogle = createAction('loginGoogle');
+export const loginAccount = createAction('loginAccount');
 
 export const signUp = createAsyncThunk('signupuser', async (body) => {
   const response = await fetch(config.BACKEND_ENDPOINT + '/register', {
@@ -29,13 +30,14 @@ export const login = createAsyncThunk('loginuser', async (body) => {
 const authSlice = createSlice({
   name: 'user',
   initialState: {
-    msg: '',
     user: '',
     token: '',
-    loading: false,
-    error: '',
     email: '',
+    photo: '',
     googleUser: null,
+    msg: '',
+    error: '',
+    loading: false,
     googleError: null
   },
   reducers: {
@@ -56,6 +58,8 @@ const authSlice = createSlice({
       state.user = null;
       state.error = null;
       state.email = null;
+      state.photo = null;
+      state.googleUser = null;
       AsyncStorage.clear();
     }
   },
@@ -97,8 +101,6 @@ const authSlice = createSlice({
             if (email) AsyncStorage.setItem('email', email);
             if (error) AsyncStorage.setItem('error', error);
           }
-          // const navigate =useNavigate();
-          // navigate("/home")
         }
       )
       .addCase(login.rejected, (state) => {
@@ -110,7 +112,32 @@ const authSlice = createSlice({
           state.token = idToken;
           state.email = user.email;
           state.user = user.name;
+          state.photo = user.photo;
           state.googleUser = user;
+        }
+      })
+      .addCase(loginAccount, (state, { payload }) => {
+        const user = payload;
+        const {
+          token,
+          result: { id, email, displayName, phoneNumber }
+        } = user;
+        console.log(
+          'in the login account ',
+          id,
+          'token',
+          token,
+          'email',
+          email,
+          'display',
+          displayName,
+          'phone',
+          phoneNumber
+        );
+        if (user) {
+          state.token = token;
+          state.email = email;
+          state.user = displayName;
         }
       });
   }

@@ -82,9 +82,10 @@ export default function GgMap({ navigation, isShowMenu }) {
                       style={{
                         textAlign: 'center',
                         fontSize: 13,
-                        paddingTop: 2,
+                        paddingTop: 7,
                         paddingLeft: 3,
-                        width: 30
+                        width: 45
+                        // backgroundColor: 'red'
                       }}
                     >
                       {index + 1}

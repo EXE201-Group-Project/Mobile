@@ -8,31 +8,24 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Button,
-  ActivityIndicator,
   Image,
   Pressable,
   Alert
 } from 'react-native';
 import { TextInput, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, loginGoogle, logout } from '../../redux/slice/authSlice';
-import { Screen } from '../../navigator/Screen';
+import { useDispatch } from 'react-redux';
+import { loginAccount, loginGoogle, logout } from '../../redux/slice/authSlice';
+import { useToast } from 'react-native-toast-notifications';
 
-import {
-  GoogleSignin,
-  GoogleSigninButton
-} from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { loginAccAxios } from '../../hook/axios';
 
 function Body() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginAttemptCounter, setLoginAttemptCounter] = useState(0);
-  const user = useSelector((state) => state.user);
-  const error = useSelector((state) => state.user.error);
-  const { navigate } = useNavigation();
-  const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -42,20 +35,35 @@ function Body() {
     setPassword(text);
   };
 
-  useEffect(() => {
-    // Check for errors when the error variable changes
-    if (error) {
-      alert(error);
-    }
-  }, [error, loginAttemptCounter]);
+  // const handleLogin = async () => {
+  //   await dispatch(login({ email, password }));
+  //   setLoginAttemptCounter((prevCounter) => prevCounter + 1);
 
-  const handleLogin = async () => {
-    await dispatch(login({ email, password }));
-    setLoginAttemptCounter((prevCounter) => prevCounter + 1);
-
-    if (!error) {
-      navigate(Screen.Read);
-    }
+  //   if (!error) {
+  //     navigate(Screen.Read);
+  //   }
+  // };
+  const handleLogin = async (username, password) => {
+    await loginAccAxios({
+      UserName: username,
+      Password: password
+    })
+      .then((rs) => {
+        if (rs.status == 200) {
+          console.log('login success fully ', rs.data);
+          dispatch(loginAccount(rs.data));
+        }
+      })
+      .catch((e) => {
+        toast.show('Wrong email or password!', {
+          type: 'warning',
+          placement: 'top',
+          duration: 4000,
+          offset: 30,
+          animationType: 'slide-in'
+        });
+        console.log('err at login ', e);
+      });
   };
 
   return (
@@ -78,13 +86,13 @@ function Body() {
         onPress={() => {}}
         style={{ alignItems: 'flex-end', marginTop: 10, marginLeft: 220 }}
       >
-        <Text style={{ color: '#999999' }}>Forgot your password?</Text>
+        <Text style={{ color: '#999999' }}>Quên mật khẩu?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.loginButton}
         // onPress={handleLogin}
         //Not create login yet
-        onPress={() => {}}
+        onPress={() => handleLogin(email, password)}
       >
         <Text style={styles.loginButtonText}>Sign in</Text>
       </TouchableOpacity>
@@ -121,7 +129,7 @@ function Footer() {
   );
 }
 
-function Login() {
+function Login({ navigation }) {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
@@ -143,7 +151,7 @@ function Login() {
       setUserInfo(user);
       dispatch(loginGoogle(user));
       // console.log('-------------- User Info --------------');
-      // console.log(user);
+      console.log(user);
     } catch (e) {
       setError(e);
     }
@@ -175,19 +183,6 @@ function Login() {
                 justifyContent: 'center'
               }}
             />
-            {/* <Text
-                style={{
-                  //Main color: 00CCFF
-                  color: '#22ba3a',
-                  textAlign: 'center',
-                  fontWeight: 700,
-                  fontSize: 35,
-                  lineHeight: 35,
-                  paddingTop: 100
-                }}
-              >
-                Doctor Map
-              </Text> */}
             <Text
               style={{
                 color: 'black',
@@ -199,7 +194,7 @@ function Login() {
                 fontWeight: 'bold'
               }}
             >
-              Optimize routes app {'\n'} for delivery
+              Tối ưu hóa đường đi {'\n'} dành cho mọi phương tiện
             </Text>
           </View>
 
@@ -223,7 +218,7 @@ function Login() {
                   marginHorizontal: 5
                 }}
               >
-                Or Sign In With
+                Hoặc đăng nhập với
               </Text>
               <Text style={styles.middleline}></Text>
             </View>
@@ -271,12 +266,12 @@ function Login() {
               marginBottom: 10
             }}
           >
-            <Text>Don't Have An Account? </Text>
-            <Pressable>
+            <Text>Chưa có tài khoản? </Text>
+            <Pressable onPress={() => navigation.navigate('Register')}>
               <Text
                 style={{ color: '#43A9EB', textDecorationLine: 'underline' }}
               >
-                Sign up
+                Đăng ký!
               </Text>
             </Pressable>
           </View>
