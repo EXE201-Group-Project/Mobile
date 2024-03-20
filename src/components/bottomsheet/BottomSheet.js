@@ -23,7 +23,9 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [anyTxt, setAnyTxt] = useState('');
   const [err, setErr] = useState('');
+  const [geoKey, setGeoKey] = useState('');
   // const [hide, setHide] = useState(false);
   const dispatch = useDispatch();
 
@@ -33,11 +35,14 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
       const debounceTime = setTimeout(() => {
         const formatSearch = searchPhrase.replaceAll(' ', '%20');
         const geoapifyKey = process.env.EXPO_PUBLIC_API_GEOAPIFY;
+        setGeoKey(geoapifyKey.toString());
         fetch(
           `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&filter=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=${geoapifyKey}`
         )
           .then((response) => response.json())
           .then((result) => {
+            setAnyTxt(JSON.stringify(result));
+            console.log('resultt ', result);
             if (result.results) {
               setSearchData((searchData) => result.results);
             } else {
@@ -133,6 +138,10 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
           />
         </View>
         <View>
+          <Text>This is key: {geoKey}</Text>
+          <Text>Any text: </Text>
+          <Text>{anyTxt}</Text>
+          <Text>Error: </Text>
           <Text>{err}</Text>
         </View>
         {/* Normal component */}
