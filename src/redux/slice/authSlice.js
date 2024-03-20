@@ -122,18 +122,6 @@ const authSlice = createSlice({
           token,
           result: { id, email, displayName, phoneNumber }
         } = user;
-        console.log(
-          'in the login account ',
-          id,
-          'token',
-          token,
-          'email',
-          email,
-          'display',
-          displayName,
-          'phone',
-          phoneNumber
-        );
         if (user) {
           state.token = token;
           state.email = email;

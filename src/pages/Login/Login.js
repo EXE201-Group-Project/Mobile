@@ -50,7 +50,7 @@ function Body() {
     })
       .then((rs) => {
         if (rs.status == 200) {
-          console.log('login success fully ', rs.data);
+          // console.log('login success fully ', rs.data);
           dispatch(loginAccount(rs.data));
         }
       })
