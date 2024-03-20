@@ -108,7 +108,6 @@ const RouteTrip = () => {
         result.map((item) => {
           const encoded = item.routes.routes[0].polyline.encodedPolyline;
           const decoded = decodePolyline(encoded);
-          // console.log('Decode hereeeeee ', decoded);
           polylines.push(decoded);
         });
         dispatch(updatePolyline({ polyline: polylines }));
