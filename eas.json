@@ -9,14 +9,12 @@
     },
     "preview": {
       "android": {
-        "buildType": "app-bundle",
-        "autoIncrement": true
+        "buildType": "app-bundle"
       }
     },
     "production": {
       "android": {
-        "buildType": "apk",
-        "autoIncrement": true
+        "buildType": "apk"
       }
     }
   },
