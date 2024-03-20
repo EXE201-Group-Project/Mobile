@@ -1,6 +1,6 @@
 //import liraries
 import React, { useMemo, useState, useEffect } from 'react';
-import { View, StyleSheet, Keyboard } from 'react-native';
+import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 
 import { useDispatch } from 'react-redux';
@@ -23,6 +23,7 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [err, setErr] = useState('');
   // const [hide, setHide] = useState(false);
   const dispatch = useDispatch();
 
@@ -37,14 +38,22 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
         )
           .then((response) => response.json())
           .then((result) => {
-            // console.log(result);
             if (result.results) {
               setSearchData((searchData) => result.results);
             } else {
               setSearchData([]);
             }
           })
-          .catch((error) => console.log('error', error));
+          .catch((error) => {
+            toast.show(error, {
+              type: 'warning',
+              placement: 'top',
+              duration: 4000,
+              offset: 30,
+              animationType: 'slide-in'
+            });
+            setErr(error.toString());
+          });
       }, 420);
       return () => clearTimeout(debounceTime);
     }
@@ -122,6 +131,9 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
             setSelectedItem={setSelectedItem}
             navigation={navigation}
           />
+        </View>
+        <View>
+          <Text>{err}</Text>
         </View>
         {/* Normal component */}
         {clicked == false && (
