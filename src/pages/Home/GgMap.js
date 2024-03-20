@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Pressable, StyleSheet, Text } from 'react-native';
 import MapView, { Callout, Marker, Polyline } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import customMarker from '../../../assets/icons/marker_96.png';
 
 export default function GgMap({ navigation, isShowMenu }) {
+  const mapRef = useRef(null);
   const polyline = useSelector((state) => state.place.polyline);
   const places = useSelector((state) => state.place.places);
   // const menuNavStyles = isShowMenu
@@ -37,14 +38,6 @@ export default function GgMap({ navigation, isShowMenu }) {
 
   return (
     <View style={styles.container}>
-      {/* <Pressable
-        style={menuNavStyles}
-        onPress={() => {
-          navigation.openDrawer();
-        }}
-      >
-        <Icon name="menu-outline" size={26} />
-      </Pressable> */}
       <MapView
         style={styles.map}
         initialRegion={{

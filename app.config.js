@@ -22,7 +22,8 @@ export default {
             usesCleartextTraffic: true
           }
         }
-      ]
+      ],
+      'expo-updates'
     ],
     assetBundlePatterns: ['**/*'],
     ios: {
