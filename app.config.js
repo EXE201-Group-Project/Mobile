@@ -13,7 +13,17 @@ export default {
       resizeMode: 'contain',
       backgroundColor: '#ffffff'
     },
-    plugins: ['@react-native-google-signin/google-signin'],
+    plugins: [
+      '@react-native-google-signin/google-signin',
+      [
+        'expo-build-properties',
+        {
+          android: {
+            usesCleartextTraffic: true
+          }
+        }
+      ]
+    ],
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
