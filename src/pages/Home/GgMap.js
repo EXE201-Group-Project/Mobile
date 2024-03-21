@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
-import { View, Pressable, StyleSheet, Text } from 'react-native';
-import MapView, { Callout, Marker, Polyline } from 'react-native-maps';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import MapView, { Marker, Polyline } from 'react-native-maps';
 import { useSelector } from 'react-redux';
 import customMarker from '../../../assets/icons/marker_96.png';
 
@@ -36,10 +35,49 @@ export default function GgMap({ navigation, isShowMenu }) {
     '#343a40' //Black
   ];
 
+  useEffect(() => {
+    if (!places || places.length === 0 || !mapRef.current) return;
+
+    // Calculate bounds
+    let minLat = Infinity,
+      maxLat = -Infinity;
+    let minLng = Infinity,
+      maxLng = -Infinity;
+
+    places.forEach((place) => {
+      const {
+        location: {
+          latlng: { latitude, longitude }
+        }
+      } = place;
+
+      minLat = Math.min(minLat, latitude);
+      maxLat = Math.max(maxLat, latitude);
+      minLng = Math.min(minLng, longitude);
+      maxLng = Math.max(maxLng, longitude);
+    });
+
+    // Calculate center and delta
+    const latDelta = maxLat - minLat;
+    const lngDelta = maxLng - minLng;
+    const centerLat = (minLat + maxLat) / 2;
+    const centerLng = (minLng + maxLng) / 2;
+    const region = {
+      latitude: centerLat,
+      longitude: centerLng,
+      latitudeDelta: latDelta * 1.5, // Adjust the multiplier for desired zoom level
+      longitudeDelta: lngDelta * 1.5 // Adjust the multiplier for desired zoom level
+    };
+
+    // Set map region
+    mapRef.current.animateToRegion(region, 1000); // 1000ms duration for animation
+  }, [places]);
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
+        ref={mapRef}
         initialRegion={{
           latitude: 16.16666666,
           longitude: 107.83333333,
@@ -65,10 +103,6 @@ export default function GgMap({ navigation, isShowMenu }) {
                   title={place_id ? place_id : description}
                   description={description}
                   icon={customMarker}
-                  // style={{
-                  //   width: 50,
-                  //   height: 50
-                  // }}
                 >
                   <View>
                     <Text
@@ -97,19 +131,6 @@ export default function GgMap({ navigation, isShowMenu }) {
               />
             ))
           : ''}
-        {/* <Polyline
-          coordinates={polyline}
-          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-          strokeColors={[
-            '#7F0000',
-            '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-            '#B24112',
-            '#E5845C',
-            '#238C23',
-            '#7F0000'
-          ]}
-          strokeWidth={6}
-        /> */}
       </MapView>
     </View>
   );
