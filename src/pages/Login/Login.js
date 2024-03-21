@@ -151,7 +151,7 @@ function Login({ navigation }) {
       setUserInfo(user);
       dispatch(loginGoogle(user));
       // console.log('-------------- User Info --------------');
-      console.log(user);
+      // console.log(user);
     } catch (e) {
       setError(e);
     }
