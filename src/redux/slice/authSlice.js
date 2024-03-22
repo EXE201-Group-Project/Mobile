@@ -107,25 +107,29 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(loginGoogle, (state, action) => {
-        const { idToken, user } = action.payload;
-        if (idToken && user) {
-          state.token = idToken;
-          state.email = user.email;
-          state.user = user.name;
-          state.photo = user.photo;
-          state.googleUser = user;
+        // const { idToken, user } = action.payload;
+        const { result } = action.payload;
+        const { id, email, displayName, filePath } = result;
+        //result: id, email, displayName, filePath
+        if (result) {
+          state.token = id;
+          state.email = email;
+          state.user = displayName;
+          state.photo = filePath;
+          state.googleUser = result;
         }
       })
       .addCase(loginAccount, (state, { payload }) => {
         const user = payload;
         const {
-          token,
-          result: { id, email, displayName, phoneNumber }
+          // token,
+          result: { id, email, displayName, phoneNumber, filePath }
         } = user;
         if (user) {
-          state.token = token;
+          state.token = id;
           state.email = email;
           state.user = displayName;
+          state.photo = filePath;
         }
       });
   }

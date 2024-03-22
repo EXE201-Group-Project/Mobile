@@ -1,16 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import { useSelector } from 'react-redux';
-import customMarker from '../../../assets/icons/marker_96.png';
+import customMarker from '../../../assets/icons/marker_64.png';
 
-export default function GgMap({ navigation, isShowMenu }) {
+export default function GgMap() {
   const mapRef = useRef(null);
   const polyline = useSelector((state) => state.place.polyline);
   const places = useSelector((state) => state.place.places);
-  // const menuNavStyles = isShowMenu
-  //   ? [styles.navigationBtn, styles.shadowBoxAndroid, styles.shadowBoxIOS]
-  //   : { display: 'none' };
 
   const polyColors = [
     '#007bff', //Blue
@@ -66,10 +63,9 @@ export default function GgMap({ navigation, isShowMenu }) {
       latitude: centerLat,
       longitude: centerLng,
       latitudeDelta: latDelta * 1.5, // Adjust the multiplier for desired zoom level
-      longitudeDelta: lngDelta * 1.5 // Adjust the multiplier for desired zoom level
+      longitudeDelta: lngDelta * 1.5
     };
 
-    // Set map region
     mapRef.current.animateToRegion(region, 1000); // 1000ms duration for animation
   }, [places]);
 
@@ -102,22 +98,13 @@ export default function GgMap({ navigation, isShowMenu }) {
                   }}
                   title={place_id ? place_id : description}
                   description={description}
-                  icon={customMarker}
                 >
-                  <View>
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        fontSize: 13,
-                        paddingTop: 7,
-                        paddingLeft: 3,
-                        width: 45
-                        // backgroundColor: 'red'
-                      }}
-                    >
-                      {index + 1}
-                    </Text>
-                  </View>
+                  <ImageBackground
+                    source={customMarker}
+                    style={styles.markerImg}
+                  >
+                    <Text style={styles.marketLabel}>{index + 1}</Text>
+                  </ImageBackground>
                 </Marker>
               );
             })
@@ -166,5 +153,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2
+  },
+  markerImg: { width: 45, height: 45 },
+  marketLabel: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    paddingTop: 5
   }
 });

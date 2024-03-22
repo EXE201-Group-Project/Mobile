@@ -13,15 +13,16 @@ import {
   Alert
 } from 'react-native';
 import { TextInput, Avatar } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { loginAccount, loginGoogle, logout } from '../../redux/slice/authSlice';
 import { useToast } from 'react-native-toast-notifications';
 
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { loginAccAxios } from '../../hook/axios';
+import { loginAccAxios, loginGGAxios } from '../../hook/axios';
+import { showToast } from '../../components/ToastMsg';
+import LoadingBlur from '../../components/LoadingBlur';
 
-function Body() {
+function Body({ setLoading }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,15 +36,8 @@ function Body() {
     setPassword(text);
   };
 
-  // const handleLogin = async () => {
-  //   await dispatch(login({ email, password }));
-  //   setLoginAttemptCounter((prevCounter) => prevCounter + 1);
-
-  //   if (!error) {
-  //     navigate(Screen.Read);
-  //   }
-  // };
   const handleLogin = async (username, password) => {
+    setLoading(true);
     await loginAccAxios({
       UserName: username,
       Password: password
@@ -52,17 +46,13 @@ function Body() {
         if (rs.status == 200) {
           // console.log('login success fully ', rs.data);
           dispatch(loginAccount(rs.data));
+          setLoading(false);
         }
       })
       .catch((e) => {
-        toast.show('Wrong email or password!', {
-          type: 'warning',
-          placement: 'top',
-          duration: 4000,
-          offset: 30,
-          animationType: 'slide-in'
-        });
+        setLoading(false);
         console.log('err at login ', e);
+        showToast(toast, 'Wrong email or password!', 'warning');
       });
   };
 
@@ -100,40 +90,11 @@ function Body() {
   );
 }
 
-function Footer() {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
-    alert('logout');
-  };
-
-  return (
-    <View
-      style={{
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <View
-        style={{
-          backgroundColor: '#f1edea',
-          marginBottom: 0,
-          width: '100%',
-          paddingBottom: 50,
-          alignItems: 'center'
-        }}
-      ></View>
-    </View>
-  );
-}
-
 function Login({ navigation }) {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -142,14 +103,28 @@ function Login({ navigation }) {
     });
   }, []);
 
+  //Fetch data tu google -> sau khi chon acc => call server luu thong tin
+  //=> sau khi thong tin san sang => luu vao state
   const signinGoogle = async () => {
     try {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const user = await GoogleSignin.signIn();
-      setLoading(false);
-      setUserInfo(user);
-      dispatch(loginGoogle(user));
+      if (user) {
+        await loginGGAxios({
+          IdToken: user.idToken
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              dispatch(loginAccount(response.data));
+              setLoading(false);
+            }
+          })
+          .catch((err) => {
+            showToast(toast, String(err), 'warning');
+            setLoading(false);
+          });
+      }
       // console.log('-------------- User Info --------------');
       // console.log(user);
     } catch (e) {
@@ -158,7 +133,6 @@ function Login({ navigation }) {
   };
 
   const logout = () => {
-    setUserInfo();
     GoogleSignin.revokeAccess();
     GoogleSignin.signOut();
   };
@@ -198,7 +172,7 @@ function Login({ navigation }) {
             </Text>
           </View>
 
-          <Body />
+          <Body setLoading={setLoading} />
           <View style={styles.footerSection}>
             <View
               style={{
@@ -277,6 +251,7 @@ function Login({ navigation }) {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      {loading ? <LoadingBlur /> : ''}
     </View>
   );
 }

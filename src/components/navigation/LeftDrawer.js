@@ -47,14 +47,13 @@ const LeftDrawer = (props) => {
           {userInfo.email ? userInfo.email : 'null'}
         </Text>
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => {
+            console.log(userInfo);
+          }}
           style={[GlobalStyle.horizontal, styles.alignVerCenter]}
         >
           <Text
             style={[GlobalStyle.subHeader, styles.subText, { marginRight: 6 }]}
-            onPress={() => {
-              console.log(userInfo);
-            }}
           >
             Gói Premium
           </Text>

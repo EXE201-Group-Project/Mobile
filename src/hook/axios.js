@@ -13,3 +13,7 @@ export const registerAccAxios = async (user) => {
   const response = await drMap.post(`/User`, user);
   return response;
 };
+export const loginGGAxios = async (user) => {
+  const response = await drMap.post('/Auth/login/google', user);
+  return response;
+};
