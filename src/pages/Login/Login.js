@@ -116,6 +116,7 @@ function Login({ navigation }) {
         })
           .then((response) => {
             if (response.status == 200) {
+              // console.log('login with gooogle success ', response);
               dispatch(loginAccount(response.data));
               setLoading(false);
             }

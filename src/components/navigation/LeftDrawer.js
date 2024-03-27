@@ -13,8 +13,10 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { logout } from '../../redux/slice/authSlice';
 import { useEffect, useState } from 'react';
 import { clearPlaces, clearPolylines } from '../../redux/slice/placeSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const LeftDrawer = (props) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
   const [userAvatar, setUserAvatar] = useState(
@@ -49,13 +51,14 @@ const LeftDrawer = (props) => {
         <TouchableOpacity
           onPress={() => {
             console.log(userInfo);
+            navigation.navigate('Payment');
           }}
           style={[GlobalStyle.horizontal, styles.alignVerCenter]}
         >
           <Text
             style={[GlobalStyle.subHeader, styles.subText, { marginRight: 6 }]}
           >
-            Gói Premium
+            {userInfo.isActivated ? 'Gói Premium' : 'Gói Free'}
           </Text>
           <FontAwesome name="angle-right" size={24} style={styles.subText} />
         </TouchableOpacity>

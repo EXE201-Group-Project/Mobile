@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://35.187.149.47/api';
+const BASE_URL = 'http://35.229.195.34/api';
 
 const drMap = axios.create({
   baseURL: BASE_URL
@@ -15,5 +15,14 @@ export const registerAccAxios = async (user) => {
 };
 export const loginGGAxios = async (user) => {
   const response = await drMap.post('/Auth/login/google', user);
+  return response;
+};
+
+export const getUserCode = async (token) => {
+  const response = await drMap.post('/User/code', undefined, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
   return response;
 };

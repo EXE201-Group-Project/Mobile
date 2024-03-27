@@ -30,14 +30,16 @@ export const login = createAsyncThunk('loginuser', async (body) => {
 const authSlice = createSlice({
   name: 'user',
   initialState: {
-    user: '',
+    id: '',
     token: '',
+    user: '',
+    isActivated: false,
     email: '',
     photo: '',
-    googleUser: null,
     msg: '',
     error: '',
     loading: false,
+    googleUser: null,
     googleError: null
   },
   reducers: {
@@ -123,10 +125,20 @@ const authSlice = createSlice({
         const user = payload;
         const {
           // token,
-          result: { id, email, displayName, phoneNumber, filePath }
+          result: {
+            id,
+            email,
+            displayName,
+            phoneNumber,
+            filePath,
+            isActivated
+          },
+          token
         } = user;
         if (user) {
-          state.token = id;
+          state.id = id;
+          state.token = token;
+          state.isActivated = isActivated;
           state.email = email;
           state.user = displayName;
           state.photo = filePath;

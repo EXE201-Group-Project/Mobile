@@ -8,5 +8,6 @@ export const Screen = {
   RouteSetting: 'RouteSetting',
   SearchStartAddress: 'SearchStartAddress',
   AuthStackNavigator: 'AuthStackNavigator',
-  LeftDrawer: 'LeftDrawer'
+  LeftDrawer: 'LeftDrawer',
+  Payment: 'Payment'
 };

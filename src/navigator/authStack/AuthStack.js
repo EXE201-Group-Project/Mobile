@@ -18,6 +18,7 @@ import SearchChangeAddress from '../../components/searchChangeAddress/SearchChan
 import RouteSetting from '../../pages/Route/RouteSetting';
 import SearchStartAddress from '../../pages/Home/SearchStartAddress';
 import IncomingFeature from '../../pages/IncomingFeature';
+import Payment from '../../pages/Payment/Payment';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -67,47 +68,27 @@ function Root() {
 
 export default function AuthStackNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={Root}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name={Screen.AddedStop}
-        component={AddedStop}
-        options={{
-          headerShown: false
-        }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <Stack.Screen name="Root" component={Root} />
+      <Stack.Screen name={Screen.AddedStop} component={AddedStop} />
       <Stack.Screen
         name={Screen.SearchChangeAddress}
         component={SearchChangeAddress}
-        options={{
-          headerShown: false
-        }}
       />
-      <Stack.Screen
-        name={Screen.RouteSetting}
-        component={RouteSetting}
-        options={{
-          headerShown: false
-        }}
-      />
+      <Stack.Screen name={Screen.RouteSetting} component={RouteSetting} />
       <Stack.Screen
         name={Screen.SearchStartAddress}
         component={SearchStartAddress}
-        options={{
-          headerShown: false
-        }}
       />
       <Stack.Screen
         name={Screen.AuthStackNavigator}
         component={AuthStackNavigator}
-        options={{
-          headerShown: false
-        }}
       />
+      <Stack.Screen name={Screen.Payment} component={Payment} />
     </Stack.Navigator>
   );
 }
