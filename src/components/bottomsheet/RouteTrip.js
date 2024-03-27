@@ -94,7 +94,7 @@ const RouteTrip = () => {
     try {
       dispatch(clearPolylines());
       const res = await fetch(
-        `http://35.187.149.47/api/Route?travelMode=${
+        `http://35.229.195.34/api/Route?travelMode=${
           isTwoWheels ? 'TWO_WHEELER' : 'DRIVE'
         }&routingPreference=TRAFFIC_AWARE&avoidHighways=true&avoidTolls=true&avoidFerries=true`,
         {
@@ -104,6 +104,7 @@ const RouteTrip = () => {
         }
       );
       const result = await res.json();
+      console.log('This is rs ,', JSON.stringify(result));
       if (result) {
         result.map((item) => {
           const encoded = item.routes.routes[0].polyline.encodedPolyline;

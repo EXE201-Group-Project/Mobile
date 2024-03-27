@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { Ionicons } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { addPlace } from '../../redux/slice/placeSlice';
+import { showToast } from '../ToastMsg';
+import { useToast } from 'react-native-toast-notifications';
 
 const initPlacesState = {
   index: 0,
@@ -39,9 +41,10 @@ const Item = ({ name, details, onClick }) => {
   );
 };
 
-const List = ({ data, setCLicked, setSelectedItem }) => {
-  const dispatch = useDispatch();
+const List = ({ data, setCLicked, setSelectedItem, setBottomSheetIndex }) => {
   const places = useSelector((state) => state.place.places);
+  const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleItemClick = (item) => {
     const formattedData = {
@@ -60,10 +63,12 @@ const List = ({ data, setCLicked, setSelectedItem }) => {
     };
     dispatch(addPlace({ place: formattedData }));
 
-    setSelectedItem(item);
     setCLicked(true);
+    setSelectedItem(item);
+    setBottomSheetIndex(1);
     const key = `${item.place_id}_address`;
     AsyncStorage.setItem(key, item.address_line1);
+    showToast(toast, 'Thêm điểm thành công', 'success');
   };
 
   return (

@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SearchBar from './SearchBar';
 import List from './List';
@@ -13,16 +13,32 @@ import RouteTrip from './RouteTrip';
 import { GEOAPIFY_API_KEY } from '@env';
 import { useToast } from 'react-native-toast-notifications';
 
+const FreePlan = () => {
+  return (
+    <View style={{ marginVertical: 30 }}>
+      <Text style={{ fontSize: 22, textAlign: 'center' }}>
+        Gói Free chỉ hỗ trợ người dùng nhập tối đa 5 địa điểm
+      </Text>
+    </View>
+  );
+};
+
 // create a component
 const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
   const snapPoints = useMemo(() => ['10%', '50%', '92%'], []);
-
+  //Dùng để ktra gói premium, và ràng buộc
+  const userInfo = useSelector((state) => state.user);
+  const places = useSelector((state) => state.place.places);
+  //State bottomsheet & inside
   const [searchPhrase, setSearchPhrase] = useState('');
   const [clicked, setClicked] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
   const [snapHighest, setSnapHighest] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [debounceSearchTime, setDebounceSearchTime] = useState(
+    userInfo.isActivated ? 210 : 420 //miliseconds
+  );
 
   // const [anyTxt, setAnyTxt] = useState('');
   // const [err, setErr] = useState('');
@@ -33,44 +49,54 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
 
   //Nhap vao it nhat 2 ky tu, debounce
   useEffect(() => {
+    const isValid = userInfo.isActivated;
     if (searchPhrase.length >= 2) {
-      const debounceTime = setTimeout(() => {
-        const formatSearch = searchPhrase.replaceAll(' ', '%20');
-        const geoapifyKey = process.env.EXPO_PUBLIC_API_GEOAPIFY;
-        // setGeoKey(geoapifyKey.toString());
-        fetch(
-          `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&filter=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=6ccd8475730a4d648ef7a6fb642f256f`
-        )
-          .then(async (response) => {
-            const result = await response.json();
-            if (result.results) {
-              setSearchData((searchData) => result.results);
-            }
-            if (result.results && result.results.length === 0) {
-              toast.show('Not found any', {
-                type: 'warning',
-                placement: 'top',
-                duration: 4000,
-                offset: 30,
-                animationType: 'slide-in'
-              });
-              setSearchData([]);
-            }
-            if (response.status === 401) {
-              toast.show('Invalid', {
-                type: 'warning',
-                placement: 'top',
-                duration: 4000,
-                offset: 30,
-                animationType: 'slide-in'
-              });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 420);
-      return () => clearTimeout(debounceTime);
+      //Check nếu là tài khoản free + quá 5 điểm => return
+      if (!isValid && places.length >= 5) {
+        console.log('Limit 5 places for free plan!');
+      } else {
+        const debounceTime = setTimeout(() => {
+          console.log(
+            'Im calling the autocomplete with debounce ',
+            debounceSearchTime
+          );
+          const formatSearch = searchPhrase.replaceAll(' ', '%20');
+          const geoapifyKey = process.env.EXPO_PUBLIC_API_GEOAPIFY;
+          // setGeoKey(geoapifyKey.toString());
+          fetch(
+            `https://api.geoapify.com/v1/geocode/autocomplete?text=${formatSearch}&filter=rect:102.1950225046728,8.429936692883985,109.5263465302412,22.807763550006612|countrycode:none&format=json&apiKey=6ccd8475730a4d648ef7a6fb642f256f`
+          )
+            .then(async (response) => {
+              const result = await response.json();
+              if (result.results) {
+                setSearchData((searchData) => result.results);
+              }
+              if (result.results && result.results.length === 0) {
+                toast.show('Not found any', {
+                  type: 'warning',
+                  placement: 'top',
+                  duration: 4000,
+                  offset: 30,
+                  animationType: 'slide-in'
+                });
+                setSearchData([]);
+              }
+              if (response.status === 401) {
+                toast.show('Invalid', {
+                  type: 'warning',
+                  placement: 'top',
+                  duration: 4000,
+                  offset: 30,
+                  animationType: 'slide-in'
+                });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, debounceSearchTime);
+        return () => clearTimeout(debounceTime);
+      }
     }
   }, [searchPhrase]);
 
@@ -154,29 +180,38 @@ const BottomSheetHome = ({ setIsShowMenu, navigation }) => {
           </View>
         )}
         {/* Sau khi an chon search -> show cac danh sach */}
-        {clicked && bottomSheetIndex === 2 && !selectedItem && (
+        {!userInfo.isActivated && places.length >= 5 && !selectedItem ? (
+          <FreePlan />
+        ) : (
+          clicked &&
+          bottomSheetIndex === 2 &&
+          !selectedItem && (
+            <List
+              searchPhrase={searchPhrase}
+              data={searchData}
+              setCLicked={setClicked}
+              setSelectedItem={setSelectedItem}
+              selectedItem={selectedItem}
+              setBottomSheetIndex={setBottomSheetIndex}
+            />
+          )
+        )}
+        {/* {clicked && bottomSheetIndex === 2 && !selectedItem && (
           <List
             searchPhrase={searchPhrase}
             data={searchData}
             setCLicked={setClicked}
             setSelectedItem={setSelectedItem}
             selectedItem={selectedItem}
-            // setHide = {setHide}
           />
-        )}
+        )} */}
         {/* Sau khi chon dia diem thi show thong tin chi tiet ve dia diem day*/}
-        {/* {clicked && selectedItem !== null && (
+        {/* {selectedItem !== null && (
           <AddedStop
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
           />
         )} */}
-        {selectedItem !== null && (
-          <AddedStop
-            selectedItem={selectedItem}
-            setSelectedItem={setSelectedItem}
-          />
-        )}
       </View>
     </BottomSheet>
   );

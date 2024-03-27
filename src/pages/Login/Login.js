@@ -73,15 +73,18 @@ function Body({ setLoading }) {
         onChangeText={handlePasswordChange}
       />
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => {
+          Alert.alert(
+            'Quên mật khẩu',
+            'Xin hãy gửi thông tin của bạn qua mail: wearedareteam@gmail.com để được giải quyết.'
+          );
+        }}
         style={{ alignItems: 'flex-end', marginTop: 10, marginLeft: 220 }}
       >
         <Text style={{ color: '#999999' }}>Quên mật khẩu?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.loginButton}
-        // onPress={handleLogin}
-        //Not create login yet
         onPress={() => handleLogin(email, password)}
       >
         <Text style={styles.loginButtonText}>Sign in</Text>
