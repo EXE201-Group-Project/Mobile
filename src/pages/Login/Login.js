@@ -113,11 +113,13 @@ function Login({ navigation }) {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const user = await GoogleSignin.signIn();
+      // console.log('userToken here ', user);
       if (user) {
         await loginGGAxios({
           IdToken: user.idToken
         })
           .then((response) => {
+            // console.log(response);
             if (response.status == 200) {
               // console.log('login with gooogle success ', response);
               dispatch(loginAccount(response.data));
@@ -128,10 +130,13 @@ function Login({ navigation }) {
             showToast(toast, String(err), 'warning');
             setLoading(false);
           });
+      } else {
+        setLoading(false);
       }
       // console.log('-------------- User Info --------------');
       // console.log(user);
     } catch (e) {
+      setLoading(false);
       setError(e);
     }
   };

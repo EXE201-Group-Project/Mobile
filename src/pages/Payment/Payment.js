@@ -8,7 +8,8 @@ import {
   Dimensions,
   Linking,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
@@ -75,7 +76,7 @@ const Payment = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ImageBackground
         style={{ flex: 1 }}
         source={require('../../../assets/imgs/paymentWall.png')}
@@ -142,9 +143,21 @@ const Payment = ({ navigation }) => {
         </View>
         {!userInfo.isActivated ? (
           <View
-            style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 30 }}
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              paddingHorizontal: 10,
+              paddingBottom: 10,
+              paddingTop: 30
+            }}
           >
-            <Text style={{ textAlign: 'center' }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                textAlignVertical: 'bottom'
+              }}
+            >
               Lưu ý: Quá trình thanh toán sẽ tốn từ 1 - 2 giờ, nếu bạn có bất kỳ
               rắc rối nào xin liên hệ qua {'\n'}
               Email: wearedareteam@gmail.com
@@ -203,13 +216,14 @@ const Payment = ({ navigation }) => {
           <Text>Email: wearedareteam@gmail.com</Text>
         </Text>
       </Modal>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+    // backgroundColor: '#4B84ED'
   },
   subContainer: {
     paddingHorizontal: 20
@@ -260,7 +274,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   qrImg: {
-    width: 300,
+    width: deviceHeight * 0.357,
     height: 300,
     borderRadius: 5,
     resizeMode: 'cover',

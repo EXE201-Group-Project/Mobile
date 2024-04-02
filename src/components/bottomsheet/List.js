@@ -62,7 +62,7 @@ const List = ({ data, setCLicked, setSelectedItem, setBottomSheetIndex }) => {
       }
     };
     dispatch(addPlace({ place: formattedData }));
-
+    console.log('formattedData ', formattedData);
     setCLicked(true);
     setSelectedItem(item);
     setBottomSheetIndex(1);
