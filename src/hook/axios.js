@@ -26,3 +26,13 @@ export const getUserCode = async (token) => {
   });
   return response;
 };
+
+export const getQrImg = async () => {
+  const response = await drMap.get('/Qr/QrCodeImg');
+  return response;
+};
+
+export const getQrLink = async () => {
+  const response = await drMap.get('/Qr/QrLink');
+  return response;
+};

@@ -13,24 +13,12 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
-import { getUserCode } from '../../hook/axios';
+import { getQrImg, getQrLink, getUserCode } from '../../hook/axios';
 import { useSelector } from 'react-redux';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const deviceHeight = Dimensions.get('window').height;
-
-const openMomo = () => {
-  const momoPaymentURL =
-    'https://me.momo.vn/8vI1T4tPUOsnu3UOC9FbiQ/Jrb28JYPzK6AeWL';
-  Linking.openURL(momoPaymentURL)
-    .then(() => {
-      console.log('Opened other app successfully');
-    })
-    .catch((error) => {
-      console.error('Failed to open other app:', error);
-    });
-};
 
 const PrevilegeItem = ({ title, subTitle }) => {
   return (
@@ -56,6 +44,8 @@ const Payment = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [paymentCode, setPaymentCode] = useState('');
+  const [qrCodeImg, setQrCodeImg] = useState('');
+  const [qrLink, setQrLink] = useState('');
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -73,7 +63,26 @@ const Payment = ({ navigation }) => {
         );
         setIsLoading(false);
       });
+
+    getQrImg()
+      .then((rs) => setQrCodeImg(rs.data))
+      .catch((err) => console.log(err));
+
+    getQrLink()
+      .then((rs) => setQrLink(rs.data))
+      .catch((err) => console.log(err));
   }, []);
+
+  const openMomo = () => {
+    const momoPaymentURL = qrLink;
+    Linking.openURL(momoPaymentURL)
+      .then(() => {
+        console.log('Opened other app successfully');
+      })
+      .catch((error) => {
+        console.error('Failed to open other app:', error);
+      });
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -179,7 +188,9 @@ const Payment = ({ navigation }) => {
             <Text>*******789</Text>
           </View>
           <Image
-            source={require('../../../assets/imgs/MyExeQR.png')}
+            source={{
+              uri: qrCodeImg
+            }}
             style={styles.qrImg}
           />
           <View style={{ marginVertical: 10 }}>
